@@ -15,10 +15,18 @@ $(".sw").on("click",function(){
         })
 })
 
+/**
+ * 刪除指定table的指定id資料
+ * 使用confirm確認是否要刪除
+ */
 function del(table,id){
-    $.post("./api/del.php",{table,id},()=>{
-        location.reload();
-    })
+    let chk=confirm('確定要刪除嗎?');
+    if(chk){
+        $.post("./api/del.php",{table,id},(res)=>{
+            //console.log(res)
+            location.reload();
+        })
+    }
 }
 
     //前端編輯資料用的函式

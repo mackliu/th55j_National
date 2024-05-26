@@ -1,4 +1,5 @@
 <?php include_once "./api/db.php";?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>南港展覽館接駁專車-管理員登入</title>
     <link rel="stylesheet" href="./css/bootstrap.css">
+
 </head>
 <body>
 <?php include "header.php";?>
@@ -21,7 +23,7 @@
                     echo "<div class='text-danger text-center my-3'>帳號或密碼錯誤</div>";
                 break;
                 case 2:
-                        echo "<div class='text-danger text-center my-3'>驗證碼錯誤，請重新輸入</div>";
+                    echo "<div class='text-danger text-center my-3'>驗證碼錯誤，請重新輸入</div>";
                 break;
             }
         }
@@ -39,12 +41,8 @@
     <div class="row w-100 align-items-center">
         <label for="" class="col-2">驗證碼</label>   
         <input  type="text" name="code" id="code" class='form-group form-control col-5'>
-        <div class="btn btn-primary btn-lg m-2" id="btnCode">
-            <?php
-                //使用rand()來產生一個四位數驗證碼，並存入session中
-                echo $_SESSION['code']=rand(1000,9999);
-            ?>
-        </div>
+                                                <!--驗證碼按鈕-->
+        <div class="btn btn-primary btn-lg m-2" id="btnCode"></div>
         <div class="btn btn-dark m-2" id="resetCode">重新產生驗證碼</div>
     </div>
 
@@ -61,10 +59,18 @@
 </body>
 </html>
 <script>
+getCode()
+
 //重設驗證碼時，使用ajax向後端請求新的驗證碼，並更新至btnCode按鈕中
 $("#resetCode").on('click',function(){
-    $.get("./api/reset_code.php",function(code){
-        $("#btnCode").text(code);
-    })
+    getCode()
 })
+
+
+//將更新驗證碼的功能包裝成一個函式
+function getCode(){
+    $.get("./api/reset_code.php",(code)=>{
+        $("#btnCode").text(code)
+    })
+}
 </script>
