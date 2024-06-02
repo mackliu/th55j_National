@@ -178,13 +178,19 @@ getStations()
 function getStations(){
     $.get("./api/get_stations.php",(res)=>{
         //console.log(res)
+        let row=0;
         let stations=JSON.parse(res)
-       console.log(stations)
+       //console.log(stations)
         let map='';
         stations.forEach((station,idx)=>{
 
             if(idx%size==0){
-                map+=`<div class='d-flex w-100 position-relative'>`
+                if(row%2==1){
+                    map+=`<div class='d-flex w-100 position-relative flex-row-reverse'>`
+                }else{
+                    map+=`<div class='d-flex w-100 position-relative'>`
+
+                }
             }
             map+=`<div class='block line'>
                      <div class='block-top'>`
@@ -201,8 +207,9 @@ function getStations(){
                      <div class='block-bottom'>${station.name}</div>
                    </div>`
             
-            if(idx%size==2){
+            if(idx%size==size-1){
                 map+=`</div>`
+                row++;
             }
 
         })
