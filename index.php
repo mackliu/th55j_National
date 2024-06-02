@@ -181,7 +181,7 @@ function getStations(){
         let row=0;
         let stations=JSON.parse(res)
         let total=Math.floor(stations.length/size);
-        console.log(total)
+
        //console.log(stations)
         let map='';
         stations.forEach((station,idx)=>{
@@ -199,7 +199,13 @@ function getStations(){
                     }
                 }
             }
-            map+=`<div class='block line'>
+            let line='line';
+            if(idx==0){
+                line='right';
+            }else if(idx==stations.length-1){
+                line='left';
+            }
+            map+=`<div class='block ${line}'>
                      <div class='block-top'>`
             if(station.time=='未發車'){
                 map+=`<span class='text-secondary'>${station.closest_bus}<br>${station.time}</span>`
