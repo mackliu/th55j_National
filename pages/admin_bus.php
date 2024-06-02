@@ -1,3 +1,4 @@
+<?php include_once "../api/db.php";?>
 <div class="list">
 <h1 class="text-center my-3 border">接駁車管理</h1>
 <button class="btn btn-success" onclick="$('.add').show();$('.list,.edit').hide()">新增</button>

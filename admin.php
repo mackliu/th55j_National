@@ -22,44 +22,26 @@ if(!isset($_SESSION['login'])){
 <body>
 <?php include "header.php";?>   
 <div class="container mt-5">
-<?php $pos=$_GET['pos']??'bus';?>
+
 <div class="border p-3">
-    <a href="admin.php?pos=bus" class='btn btn-light <?=($pos=='bus')?'active':'';?>'>接駁車管理</a>
-    <a href="admin.php?pos=station" class='btn btn-light <?=($pos=='station')?'active':'';?>'>站點管理</a>
-    <a href="admin.php?pos=form" class='btn btn-light <?=($pos=='form')?'active':'';?>'>表單管理</a>
+    <a href="#" class='control btn btn-light active' id='AdminBus' onclick="load('admin_bus.php');setActive('AdminBus')">接駁車管理</a>
+    <a href="#" class='control btn btn-light' id='AdminStation' onclick="setActive('AdminStation')">站點管理</a>
+    <a href="#" class='control btn btn-light' id='AdminForm' onclick="setActive('AdminForm')">表單管理</a>
 </div>
+<div class="main">
 
-<?php 
-    $file='admin_'.$pos.".php";
-    
-    //include $file;
-    //判斷檔案是否存在，如果存在就載入，不存在就載入admin_bus.php
-    if(file_exists($file)){
-        include $file;
-    }else{
-        include "admin_bus.php";
-    }
-
-    /* 使用switch case來切換要載入的檔案
-        switch($pos){
-            case 'bus':
-                include 'admin_bus.php';
-            break;
-            case 'station':
-                include 'admin_station.php';
-            break;
-            case 'form':
-                include 'admin_form.php';
-            break;
-        } 
-    */
-
-
-?>
-
+</div>
 </div>
 
 <script src="./js/bootstrap.js"></script>
-
+<script>
+function setActive(id){
+ $(".control").removeClass('active');
+ $("#"+id).addClass("active");
+}
+function load(page){
+    $(".main").load(`./pages/${page}`);
+}
+</script>
 </body>
 </html>
