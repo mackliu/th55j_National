@@ -17,7 +17,7 @@
         <td><?=$row['name'];?></td>
         <td><?=$row['minute'];?></td>
         <td>
-            <button class="btn btn-warning" onclick="load('edit_bus.php')">編輯</button>
+            <button class="btn btn-warning" onclick="load('edit_bus.php?id=<?=$row['id'];?>')">編輯</button>
             <button class="btn btn-danger" onclick="del('bus',<?=$row['id'];?>)">刪除</button>
         </td>
     </tr>
