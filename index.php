@@ -22,12 +22,19 @@
     position:relative;
 }
 
+/*
+ * 建立站點的上下區塊
+ */
 .block-top,.block-bottom{
-    height:calc( ( 100% - 25px ) / 2); /* */
+    height:calc( ( 100% - 25px ) / 2); 
     display:flex;
     text-align: center;
     padding:5px 0;
 }
+
+/*
+ * 設定站點的上方的區塊為向下對齊
+ */
 .block-top{
     align-items:flex-end;
 }
@@ -168,65 +175,93 @@
 <script src="./js/jquery.js"></script>
 <script src="./js/bootstrap.js"></script>
 <script>
+
+//設定每一列的站點數量
 let size=3;
 
+//畫面載入時執行getStations來取得所有站點資料
 getStations()
 
 /**
  * 取得所有站點的資料
  */
 function getStations(){
+    //使用ajax來取得所有站點資料
     $.get("./api/get_stations.php",(res)=>{
-        //console.log(res)
+        //建立一個變數來計算目前列數
         let row=0;
-        let stations=JSON.parse(res)
-        let total=Math.floor(stations.length/size);
 
-       //console.log(stations)
+        //將取得的站點資料轉換為JSON格式
+        let stations=JSON.parse(res)
+        //計算總共有幾列
+        let totalRows=Math.floor(stations.length/size);
+
+        //建立一個變數map來儲存路網圖的HTML內容
         let map='';
+
+        //使用迴圈來逐一取得站點資料
         stations.forEach((station,idx)=>{
 
+            //建立一個變數來判斷是否要反轉站點的排列方式，預設為空值
+            let reverse='';
+
+            //建立一個變數來判斷是否要畫連接線及連接線的位置在左邊還是右邊，預設為空值
+            let connect='';
+            
+            //使用餘數來判斷是否為每一列的第一個站點
             if(idx%size==0){
+
+                //判斷是否為奇數列，如果是奇數列則反轉站點排列方式
                 if(row%2==1){
-                    map+=`<div class='d-flex w-100 position-relative flex-row-reverse'>`
-                    if(row<total){
-                        map+=`<div class='connect connect-left'></div>`
-                    }
+
+                    //加入反轉站點排列方式的class
+                    reverse='flex-row-reverse';
+
+                    //如果是奇數列，而且還沒到最後一列，則連接線的位置在左邊
+                    connect=(row<totalRows)?'connect connect-left':'';
                 }else{
-                    map+=`<div class='d-flex w-100 position-relative'>`
-                    if(row<total){
-                        map+=`<div class='connect connect-right'></div>`
-                    }
+
+                    //如果是偶數列，而且還沒到最後一列，則連接線的位置在右邊
+                    connect=(row<totalRows)?'connect connect-right':'';
                 }
+
+                //將變數reverse及connect加入到map變數中
+                map+=`<div class='d-flex w-100 position-relative ${reverse}'>
+                        <div class='${connect}'></div>
+                        `
             }
+
+            //建立一個變數line來判斷站點連線的型態，預設為line，表示左右都有連線
             let line='line';
             if(idx==0){
+                //如果是第一個站點，也就是起始站，則只畫右邊的直線
                 line='right';
             }else if(idx==stations.length-1){
+                //如果是最後一個站點，則只畫左邊的直線
                 line='left';
             }
+
+            //將連線的型態加入到map變數中，同時根據api建立的站點資料來設定站點的顏色及文字
             map+=`<div class='block ${line}'>
-                     <div class='block-top'>`
-            if(station.time=='未發車'){
-                map+=`<span class='text-secondary'>${station.closest_bus}<br>${station.time}</span>`
-            }else if(station.time=='已到站'){
-                map+=`<span class='text-danger'>${station.closest_bus}<br>${station.time}</span>`
-            }else{
-
-                map+=`${station.closest_bus}<br>${station.time}`
-            }
-
-            map+=`</div>
+                     <div class='block-top ${station.status}'>
+                        ${station.closest_bus}<br>
+                        ${station.time}
+                     </div>
                      <div class='point'></div>
                      <div class='block-bottom'>${station.name}</div>
                    </div>`
             
+            //如果是每一列的最後一個站點，則加入</div>來結束這一列
             if(idx%size==size-1){
                 map+=`</div>`
+
+                //列數加1
                 row++;
             }
 
         })
+
+        //將map變數的內容加入到id為map的HTML元素中
         $("#map").html(map)
     })
 }

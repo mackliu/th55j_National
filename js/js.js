@@ -23,8 +23,8 @@ function del(table,id){
     let chk=confirm('確定要刪除嗎?');
     if(chk){
         $.post("./api/del.php",{table,id},(res)=>{
-            //console.log(res)
-            //location.reload();
+            
+            //使用switch判斷table的值，來決定要載入哪個頁面
             switch(table){
                 case 'bus':
                     load('admin_bus.php');
@@ -38,8 +38,6 @@ function del(table,id){
                     load('admin_form.php');
                     setActive("AdminForm");
                 break;
-
-            
             }
         })
     }

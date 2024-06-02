@@ -37,12 +37,17 @@ if(!isset($_SESSION['login'])){
 <script>
 load('admin_bus.php');
 
+/**
+ * 設定選單按鈕的active class
+ */
 function setActive(id){
  $(".control").removeClass('active');
  $("#"+id).addClass("active");
 }
 
-
+/**
+ * 載入指定的頁面
+ */
 function load(page){
     $(".main").load(`./pages/${page}`);
 }

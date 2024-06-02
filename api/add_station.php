@@ -1,7 +1,7 @@
 <?php
 include_once "db.php";
 
-//使用SQL語法取得目前資料表中最大的id值，做為新增站點的前一個站點
+//使用SQL語法取得目前資料表中最大的id值並加1，做為排序的rank值
 $rank=$pdo->query("SELECT max(`id`) FROM `station`")->fetchColumn()+1;
 
 //建立新增資料用的SQL語法
