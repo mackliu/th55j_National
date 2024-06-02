@@ -1,5 +1,5 @@
 <h1 class="text-center my-3 border">新增接駁車</h1>
-<form action="./api/add_bus.php" method="post">
+<form>
     <div class="row w-100">
         <label for="" class="col-2">車牌</label>
         <input type="text" name='name' id='name' class="form-group form-control col-10">

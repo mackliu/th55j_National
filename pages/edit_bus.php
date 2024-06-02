@@ -3,7 +3,7 @@ $bus=$pdo->query("select * from `bus` where `id`='{$_GET['id']}'")->fetch(PDO::F
 
 ?>
 <h1 class="text-center my-3 border">修改「<?=$bus['name'];?>」接駁車</h1>
-<form action="./api/edit_bus.php" method="post">
+<form >
     <div class="row w-100">
     <label for="" class="col-2">已行駛時間(分鐘)</label>
         <input type="number" min='0' step='1' required value="<?=$bus['minute'];?>" name='minute' id='minute' class="form-group form-control col-10">
