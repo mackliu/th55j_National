@@ -171,19 +171,26 @@
 let size=3;
 
 getStations()
+
+/**
+ * 取得所有站點的資料
+ */
 function getStations(){
     $.get("./api/get_stations.php",(res)=>{
+        //console.log(res)
         let stations=JSON.parse(res)
+       //console.log(stations)
+
         let map='';
         stations.forEach((station,idx)=>{
             if(idx%size==0){
                 map+=`<div class='d-flex w-100 position-relative'>`
             }
             map+=`<div class='block line'>
-                    <div class='block-top'></div>
-                    <div class='point'></div>
-                    <div class='block-bottom'>${station.name}</div>
-                    </div>`
+                     <div class='block-top'></div>
+                     <div class='point'></div>
+                     <div class='block-bottom'>${station.name}</div>
+                   </div>`
             if(idx%size==2){
                 map+=`</div>`
             }
