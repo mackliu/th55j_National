@@ -180,6 +180,8 @@ function getStations(){
         //console.log(res)
         let row=0;
         let stations=JSON.parse(res)
+        let total=Math.floor(stations.length/size);
+        console.log(total)
        //console.log(stations)
         let map='';
         stations.forEach((station,idx)=>{
@@ -187,9 +189,14 @@ function getStations(){
             if(idx%size==0){
                 if(row%2==1){
                     map+=`<div class='d-flex w-100 position-relative flex-row-reverse'>`
+                    if(row<total){
+                        map+=`<div class='connect connect-left'></div>`
+                    }
                 }else{
                     map+=`<div class='d-flex w-100 position-relative'>`
-
+                    if(row<total){
+                        map+=`<div class='connect connect-right'></div>`
+                    }
                 }
             }
             map+=`<div class='block line'>
@@ -202,6 +209,7 @@ function getStations(){
 
                 map+=`${station.closest_bus}<br>${station.time}`
             }
+
             map+=`</div>
                      <div class='point'></div>
                      <div class='block-bottom'>${station.name}</div>
