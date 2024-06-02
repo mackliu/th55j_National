@@ -24,7 +24,23 @@ function del(table,id){
     if(chk){
         $.post("./api/del.php",{table,id},(res)=>{
             //console.log(res)
-            location.reload();
+            //location.reload();
+            switch(table){
+                case 'bus':
+                    load('admin_bus.php');
+                    setActive("AdminBus");
+                break;
+                case 'station':
+                    load('admin_station.php');
+                    setActive("AdminStation");
+                break;
+                case 'form':
+                    load('admin_form.php');
+                    setActive("AdminForm");
+                break;
+
+            
+            }
         })
     }
 }

@@ -25,8 +25,8 @@ if(!isset($_SESSION['login'])){
 
 <div class="border p-3">
     <a href="#" class='control btn btn-light active' id='AdminBus' onclick="load('admin_bus.php');setActive('AdminBus')">接駁車管理</a>
-    <a href="#" class='control btn btn-light' id='AdminStation' onclick="setActive('AdminStation')">站點管理</a>
-    <a href="#" class='control btn btn-light' id='AdminForm' onclick="setActive('AdminForm')">表單管理</a>
+    <a href="#" class='control btn btn-light' id='AdminStation' onclick="load('admin_station.php');setActive('AdminStation')">站點管理</a>
+    <a href="#" class='control btn btn-light' id='AdminForm' onclick="load('admin_form.php');setActive('AdminForm')">表單管理</a>
 </div>
 <div class="main">
 
