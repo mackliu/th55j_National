@@ -179,18 +179,28 @@ function getStations(){
     $.get("./api/get_stations.php",(res)=>{
         //console.log(res)
         let stations=JSON.parse(res)
-       //console.log(stations)
-
+       console.log(stations)
         let map='';
         stations.forEach((station,idx)=>{
+
             if(idx%size==0){
                 map+=`<div class='d-flex w-100 position-relative'>`
             }
             map+=`<div class='block line'>
-                     <div class='block-top'></div>
+                     <div class='block-top'>`
+            if(station.time=='未發車'){
+                map+=`<span class='text-secondary'>${station.closest_bus}<br>${station.time}</span>`
+            }else if(station.time=='已到站'){
+                map+=`<span class='text-danger'>${station.closest_bus}<br>${station.time}</span>`
+            }else{
+
+                map+=`${station.closest_bus}<br>${station.time}`
+            }
+            map+=`</div>
                      <div class='point'></div>
                      <div class='block-bottom'>${station.name}</div>
                    </div>`
+            
             if(idx%size==2){
                 map+=`</div>`
             }
