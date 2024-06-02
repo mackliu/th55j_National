@@ -35,10 +35,14 @@ if(!isset($_SESSION['login'])){
 
 <script src="./js/bootstrap.js"></script>
 <script>
+load('admin_bus.php');
+
 function setActive(id){
  $(".control").removeClass('active');
  $("#"+id).addClass("active");
 }
+
+
 function load(page){
     $(".main").load(`./pages/${page}`);
 }
