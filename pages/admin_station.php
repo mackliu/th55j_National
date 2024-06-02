@@ -12,7 +12,7 @@
     </tr>
     <?php 
     //取出所有站點資料並依照before欄位進行排序
-    $sql="select * from `station` order by `before`";
+    $sql="select * from `station` order by `rank`";
     $rows=$pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
     foreach($rows as $key => $row){

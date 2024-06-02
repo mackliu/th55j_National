@@ -20,14 +20,15 @@
 </form>
 <script>
     function save() {
-        $.post("./api/add_station.php", {
+        let data={
                 name: $("#name").val(),
                 minute: $("#minute").val(),
                 waiting: $("#waiting").val()
-            })
-            .then(() => {
+            }
+        $.post("./api/add_station.php",data ,() => {
                 load('admin_station.php');
                 setActive('AdminStation')
             })
+
     }
 </script>
