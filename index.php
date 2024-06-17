@@ -131,7 +131,17 @@
     border-radius:5px;
 
 }
-
+.block .bus-list{
+    min-width:100px;
+    padding:10px;
+    border:1px solid #ccc;
+    position:absolute;
+    top:120px;
+    background-color: #fff;
+    box-shadow:0 0 10px #ccc;
+    z-index:99;
+    border-radius:10px 0 10px 0;
+}
 /**已到站的文字以紅色顯示 */
 .arrive{
     color:red;
@@ -181,6 +191,7 @@ let size=3;
 
 //畫面載入時執行getStations來取得所有站點資料
 getStations()
+
 
 /**
  * 取得所有站點的資料
@@ -247,7 +258,7 @@ function getStations(){
                         ${station.closest_bus}<br>
                         ${station.time}
                      </div>
-                     <div class='point'></div>
+                     <div class='point' data-id="${station.id}"></div>
                      <div class='block-bottom'>${station.name}</div>
                    </div>`
             
@@ -263,8 +274,35 @@ function getStations(){
 
         //將map變數的內容加入到id為map的HTML元素中
         $("#map").html(map)
+
+        //在路網圖載入完成後，對路網圖中的站點進行hover事件的設定
+        $(".point").hover(
+            //滑鼠移進站點時，取得站點的id，並使用ajax來取得公車資訊
+            function (){
+
+                //取得站點id
+                let stationId=$(this).data('id')
+                let busInfo=''  //建立一個變數來儲存公車資訊
+                $.get("./api/get_bus.php",{stationId},(busList)=>{
+
+                    if(busList!='-1'){ //如果有公車資訊，則將資訊加入到busInfo變數中
+                        $(this).after(`<div class='bus-list'>${busList}</div>`)
+                    }
+                })
+                
+            },
+            //滑鼠移出站點時，將公車資訊的div移除
+            function(){
+                $(".block .bus-list").remove()
+            }
+            )
     })
 }
 </script>
 </body>
 </html>
+
+<script>
+
+
+</script>

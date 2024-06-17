@@ -19,8 +19,8 @@
     ?>
     <tr>
         <td><?=$row['name'];?></td>
-        <td><?=$row['minute'];?></td>
-        <td><?=$row['waiting'];?></td>
+        <td><?=$row['minute'];?>分鐘</td>
+        <td><?=$row['waiting'];?>分鐘</td>
         <td>
             <button class="btn btn-warning" onclick="load('edit_station.php?id=<?=$row['id'];?>')">編輯</button>
             <button class="btn btn-danger" onclick="del('station',<?=$row['id'];?>)">刪除</button>

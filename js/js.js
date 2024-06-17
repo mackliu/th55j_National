@@ -34,7 +34,7 @@ function del(table,id){
                     load('admin_station.php');
                     setActive("AdminStation");
                 break;
-                case 'form':
+                case 'users':
                     load('admin_form.php');
                     setActive("AdminForm");
                 break;

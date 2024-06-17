@@ -13,8 +13,9 @@
 <script>
     function save() {
         let data={
-                name: $("#email").val(),
+                email: $("#email").val(),
             }
+        //使用ajax來增加使用者，增加成功後重新載入admin_form.php
         $.post("./api/add_user.php",data ,() => {
                 load('admin_form.php');
                 setActive('AdminForm')
