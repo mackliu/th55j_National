@@ -3,13 +3,16 @@
     <h1 class="border p-3 text-center my-3">站點管理 
         <button class="btn btn-success" onclick="load('add_station.php')">新增</button>
     </h1>
-    <table class="table table-bordered text-center">
+    <table class="table table-bordered text-center" id='stationTable'>
+        <thead>
     <tr>
         <td style="width:30%">站點名稱</td>
         <td style="width:20%">行駛時間(分鐘)</td>
         <td style="width:20%">停留時間(分鐘)</td>
         <td style="width:30%">操作</td>
     </tr>
+        </thead>    
+    <tbody>
     <?php 
     //取出所有站點資料並依照before欄位進行排序
     $sql="select * from `station` order by `rank`";
@@ -17,7 +20,7 @@
 
     foreach($rows as $key => $row){
     ?>
-    <tr>
+    <tr data-id="<?=$row['id'];?>">
         <td><?=$row['name'];?></td>
         <td><?=$row['minute'];?>分鐘</td>
         <td><?=$row['waiting'];?>分鐘</td>
@@ -29,5 +32,6 @@
     <?php 
     }
     ?>    
+    </tbody>
     </table>
 </div>
