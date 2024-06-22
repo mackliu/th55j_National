@@ -48,8 +48,8 @@ load('admin_bus.php');
  * 設定選單按鈕的active class
  */
 function setActive(id){
- $(".control").removeClass('active');
- $("#"+id).addClass("active");
+    $(".control").removeClass('active');
+    $("#"+id).addClass("active");
 }
 
 /**
@@ -57,10 +57,9 @@ function setActive(id){
  */
 function load(page){
     $(".main").load(`./pages/${page}`,function(){
-        if(page=='admin_bus.php'){
-            setDragable("#busTable tbody");
-        }
-        if(page=='admin_station.php'){
+
+        //載入站點管理頁面時，設定表格可拖曳排序
+        if(page=="admin_station.php"){
             setDragable("#stationTable tbody");
         }
     })
@@ -89,11 +88,15 @@ function setDragable(table){
             //將每個tr元素的data-id屬性值依序存入arr陣列
             arr.push($(this).data("id"));
         })
-        console.log(arr);
-        
-        /* $.post("./api/sort.php",{table:'bus',arr},function(){
-            location.reload();
-        }) */
+        //console.log(arr);
+        //透過ajax將排序後的id陣列傳送到update_rank.php進行更新
+        $.post("./api/update_rank.php",{table:'bus',arr},function(){
+            //重新載入站點管理頁面
+            if(table="#stationTable tbody"){
+                load('admin_station.php')
+            }
+            
+        })
     }
 
 }).disableSelection();
