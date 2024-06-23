@@ -36,7 +36,10 @@
                 name: $("#name").val(),
                 email: $("#email").val(),
             }
-
+    if(data.name==''){
+        alert("如要搭乘接駁車，姓名欄位不可為空白")
+        return 
+    }
         //使用ajax來取得回應，並依據回應結果顯示不同的訊息
         $.post("./api/feeback.php",data ,(res) => {
                 //console.log(res)
