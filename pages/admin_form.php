@@ -33,8 +33,13 @@
 </thead>
     <tbody>
     <?php 
+    $chk=$pdo->query("select count(*) from `users` where substring(`bus`,1,4)='AUTO'")->fetchColumn();
     //取出所有email資料並依照before欄位進行排序
-    $sql="select * from `users`";
+    if($chk>0){
+        $sql="select * from `users` where `status`='2'";
+    }else{
+        $sql="select * from `users`";
+    }
     $rows=$pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
     foreach($rows as $key => $row){
