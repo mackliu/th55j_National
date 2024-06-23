@@ -4,6 +4,6 @@ $all=$pdo->query("select * from `users` ")->fetchAll(PDO::FETCH_ASSOC);
 foreach($all as $idx => $user){
     if($idx<75){
         $name=explode("@",$user['email'])[0];
-        $pdo->exec("insert into `result` (`name`,`email`) values('$name','{$user['email']}')");
+        $pdo->exec("update `users` set `name`='$name' ,`status`='1' where `id`='{$user['id']}'");
     }
 }

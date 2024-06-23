@@ -3,7 +3,7 @@
 $num=$pdo->query("select `number` from `number` limit 1")->fetchColumn();
 
 //取得調查人數/一部接駁車可分配的人數=>計算接駁車數量
-$count=$pdo->query("select count(*)/$num from `users` where `status`='1'")->fetchColumn();
+$count=$pdo->query("select ceil(count(*)/$num) from `users` where `status`='1'")->fetchColumn();
 
 //透過迴圈來分配接駁車
 for($i=0;$i<$count;$i++){
@@ -12,15 +12,13 @@ for($i=0;$i<$count;$i++){
     $bus_num="AUTO-".sprintf("%04d",rand(1,9999));  //sprintf("%04d",rand(1,9999)) 產生可以補零的四位數隨機數字
     
     //取得有回應調查分配的人數
-    $users=$pdo->query("select *  from `users` where `status`='1' limit $start,$num")->fetchAll();
+    $users=$pdo->query("select *  from `users` where `status`='1' limit $num")->fetchAll();
 
     //使用迴圈將人員分配至接駁車並更新至資料表
     foreach($users as $user){
         $sql="update `users` set `bus`='$bus_num',`status`='2' where `id`='{$user['id']}'";
         $pdo->exec($sql);
     }
-
-
 }
 
 $pdo->exec("update `form` set `active`=0 where `id`=1");

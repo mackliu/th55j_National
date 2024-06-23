@@ -1,10 +1,10 @@
 <?php include_once "./api/db.php";
 
-$bus=$pdo->query("select `bus` from `result` group by `bus`")->fetchAll(PDO::FETCH_ASSOC);
+$bus=$pdo->query("select `bus` from `users` where `status`='2' group by `bus`")->fetchAll(PDO::FETCH_ASSOC);
 $result=[];
 
 foreach($bus as $b){
-    $participants=$pdo->query("select `id`,`name`,`email` from `result` where `bus`='{$b['bus']}'")->fetchAll(PDO::FETCH_ASSOC);
+    $participants=$pdo->query("select `id`,`name`,`email` from `users` where `bus`='{$b['bus']}'")->fetchAll(PDO::FETCH_ASSOC);
     $result[]=['bus'=>$b['bus'],
                 'participants'=>$participants];
 }
