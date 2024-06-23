@@ -17,7 +17,7 @@
         </div>
         <div>
             <!-- 取得預計接駁車數量 -->
-            <?php  $busNum=$pdo->query("select ceil(count(*)/$number) from `result`")->fetchColumn();?>
+            <?php  $busNum=$pdo->query("select ceil(count(*)/$number) from `users` where `status`='1'")->fetchColumn();?>
             預計接駁車數量：<?=$busNum;?><button class="btn btn-info" onclick="allocate()">分配接駁車</button>
         </div>
     </div>
@@ -25,9 +25,10 @@
         <thead>
     <tr>
         <td style="width:20%">電子信箱</td>
+        <td style="width:20%">調查結果</td>
         <td style="width:20%">姓名</td>
         <td style="width:20%">接駁車</td>
-        <td style="width:30%">操作</td>
+        <td style="width:20%">操作</td>
     </tr>
 </thead>
     <tbody>
@@ -42,13 +43,28 @@
     }else if($row['status']==1){
         echo "<tr class='bg-success text-white'>";
     }else{
-        echo "<tr class='bg-info'>";
+        echo "<tr class='bg-info text-white'>";
     }
     ?>
 
-    
         <td><?=$row['email'];?></td>
-        <td><?=($row['name']=='')?'尚未回應':$row['name'];?></td>
+        <td>
+        <?php 
+        switch($row['status']){
+            case 0:
+                echo "尚未回應";
+            break;
+            case 1:
+                echo "願意搭乘";
+            break;
+            case 2:
+                echo "";
+            break;
+        }
+        
+        ?>
+        </td>
+        <td><?=($row['name']=='')?'':$row['name'];?></td>
         <td><?=($row['bus']=='')?'未分派':$row['bus'];?></td>
         <td>
             <button class="btn btn-warning" onclick="load('edit_user.php?id=<?=$row['id'];?>')">編輯</button>
@@ -73,7 +89,8 @@ function form_status(){
 function allocate(){
     $.get("./api/allocate.php",()=>{
         alert("接駁車分配完畢")
-        location.reload();
+        load('admin_form.php');
+        setActive('AdminForm')
     })
 }
 function updateNumber(){
