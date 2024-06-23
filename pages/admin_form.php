@@ -87,8 +87,10 @@
 function form_status(){
     let status=$("#form_status").data("status");
     $.post("api/form_status.php",{status},function(){
-        $("#form_status").data("status",status==1?0:1);
-        $("#form_status").text(status==1?"關閉中":"開啟中");
+        //$("#form_status").data("status",status==1?0:1);
+        //$("#form_status").text(status==1?"關閉中":"開啟中");
+        load('admin_form.php');
+        setActive('AdminForm')
     })
 }
 function allocate(){
