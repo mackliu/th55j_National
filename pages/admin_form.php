@@ -25,6 +25,8 @@
         <thead>
     <tr>
         <td style="width:20%">電子信箱</td>
+        <td style="width:20%">姓名</td>
+        <td style="width:20%">接駁車</td>
         <td style="width:30%">操作</td>
     </tr>
 </thead>
@@ -35,9 +37,19 @@
     $rows=$pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
     foreach($rows as $key => $row){
+    if($row['status']==0){
+        echo "<tr>";
+    }else if($row['status']==1){
+        echo "<tr class='bg-success text-white'>";
+    }else{
+        echo "<tr class='bg-info'>";
+    }
     ?>
-    <tr>
+
+    
         <td><?=$row['email'];?></td>
+        <td><?=($row['name']=='')?'尚未回應':$row['name'];?></td>
+        <td><?=($row['bus']=='')?'未分派':$row['bus'];?></td>
         <td>
             <button class="btn btn-warning" onclick="load('edit_user.php?id=<?=$row['id'];?>')">編輯</button>
             <button class="btn btn-danger" onclick="del('users',<?=$row['id'];?>)">刪除</button>

@@ -19,11 +19,11 @@ if(!$exit){
 }
 
 //檢查是否已填寫過表單
-$feeback=$pdo->query("select count(*) from `result` where `email`='$email'")->fetchColumn();
+$feeback=$pdo->query("select `status` from `users` where email='$email'")->fetchColumn();
 if($feeback){
-    echo 1;  //回傳1代表未回應或填寫過表單
+    echo 1;  //回傳1代表已回應或已填寫過表單
     exit();
 }
 
-//通過以上的檢查，則將使用者資料新增到資料表
-$pdo->exec("insert into `result` (`name`,`email`) values('$name','$email')");
+//通過以上的檢查，則將使用者資料更新到資料表users
+$pdo->exec("update `users` set `name`='$name',`status`=1 where `email`='$email'");
