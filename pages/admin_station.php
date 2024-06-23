@@ -3,7 +3,7 @@
     <h1 class="border p-3 text-center my-3">站點管理 
         <button class="btn btn-success" onclick="load('add_station.php')">新增</button>
     </h1>
-    <table class="table table-bordered text-center" id='stationTable'>
+    <table class="table table-bordered text-center" id='station'>
         <thead>
     <tr>
         <td style="width:30%">站點名稱</td>

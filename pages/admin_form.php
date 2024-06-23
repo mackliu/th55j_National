@@ -21,11 +21,14 @@
             預計接駁車數量：<?=$busNum;?><button class="btn btn-info" onclick="allocate()">分配接駁車</button>
         </div>
     </div>
-    <table class="table table-bordered text-center">
+    <table class="table table-bordered text-center" id='form'>
+        <thead>
     <tr>
         <td style="width:20%">電子信箱</td>
         <td style="width:30%">操作</td>
     </tr>
+</thead>
+    <tbody>
     <?php 
     //取出所有email資料並依照before欄位進行排序
     $sql="select * from `users`";
@@ -43,6 +46,7 @@
     <?php 
     }
     ?>    
+    </tbody>
     </table>
 </div>
 

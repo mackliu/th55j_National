@@ -22,7 +22,10 @@ if(!isset($_SESSION['login'])){
     <script src="./js/js.js"></script>
     <style>
         .ui-sortable-helper {
-            background-color: #f9f9f9;
+            background-color: #00f9f9;
+        }
+        .ui-state-highlight{
+            background-color:white;
         }
     </style>
 </head>
@@ -60,8 +63,9 @@ function load(page){
 
         //載入站點管理頁面時，設定表格可拖曳排序
         if(page=="admin_station.php"){
-            setDragable("#stationTable tbody");
+            setDragable("station");
         }
+
     })
 }
 
@@ -70,7 +74,7 @@ function load(page){
  */
 function setDragable(table){
     //代入要拖曳排序的表格id及tbody
-    $(table).sortable({
+    $(`#${table} tbody`).sortable({
     helper:function(e,ui){
         //將拖曳的元素設定為原本的寬度,避免拖曳時元素變形
         ui.children().each(function(){
@@ -83,16 +87,15 @@ function setDragable(table){
         let arr=[]; //建立一個空陣列
 
         //將拖曳目標區域內的tr元素逐一取出
-        $(`${table} tr`).each(function(){
+        $(`#${table} tbody tr`).each(function(){
 
             //將每個tr元素的data-id屬性值依序存入arr陣列
             arr.push($(this).data("id"));
         })
-        //console.log(arr);
         //透過ajax將排序後的id陣列傳送到update_rank.php進行更新
-        $.post("./api/update_rank.php",{table:'bus',arr},function(){
+        $.post("./api/update_rank.php",{table,arr},function(){
             //重新載入站點管理頁面
-            if(table="#stationTable tbody"){
+            if(table="station"){
                 load('admin_station.php')
             }
             

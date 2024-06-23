@@ -2,7 +2,7 @@
 <div class="list">
 <h1 class="text-center my-3 border">接駁車管理</h1>
 <button class="btn btn-success" onclick="load('add_bus.php')">新增</button>
-<table class='table table-bordered text-center w-100' id='busTable'>
+<table class='table table-bordered text-center w-100' id='bus'>
     <thead>
     <tr>
         <td>車牌</td>
