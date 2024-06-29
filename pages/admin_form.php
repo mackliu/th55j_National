@@ -17,70 +17,37 @@
         </div>
         <div>
             <!-- 取得預計接駁車數量 -->
-            <?php  $busNum=$pdo->query("select ceil(count(*)/$number) from `users` where `status`='1'")->fetchColumn();?>
-            預計接駁車數量：<?=$busNum;?><button class="btn btn-info" onclick="allocate()">分配接駁車</button>
+            <?php  //$busNum=$pdo->query("select ceil(count(*)/$number) from `users` where `status`='1'")->fetchColumn();?>
+            預計接駁車數量：<button class="btn btn-info" onclick="allocate()">分配接駁車</button>
         </div>
     </div>
-    <table class="table table-bordered text-center" id='form'>
-        <thead>
-    <tr>
-        <td style="width:20%">電子信箱</td>
-        <td style="width:20%">調查結果</td>
-        <td style="width:20%">姓名</td>
-        <td style="width:20%">接駁車</td>
-        <td style="width:20%">操作</td>
-    </tr>
-</thead>
-    <tbody>
-    <?php 
-    $chk=$pdo->query("select count(*) from `users` where substring(`bus`,1,4)='AUTO'")->fetchColumn();
-    //取出所有email資料並依照before欄位進行排序
-    if($chk>0){
-        $sql="select * from `users` where `status`='2'";
-    }else{
-        $sql="select * from `users`";
-    }
-    $rows=$pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-
-    foreach($rows as $key => $row){
-    if($row['status']==0){
-        echo "<tr>";
-    }else if($row['status']==1){
-        echo "<tr class='bg-success text-white'>";
-    }else{
-        echo "<tr class='bg-info text-white'>";
-    }
-    ?>
-
-        <td><?=$row['email'];?></td>
-        <td>
-        <?php 
-        switch($row['status']){
-            case 0:
-                echo "尚未回應";
-            break;
-            case 1:
-                echo "願意搭乘";
-            break;
-            case 2:
-                echo "";
-            break;
-        }
-        
+    <h2 class="text-center border-b pb-2">參與者清單</h2>
+    <div id="users" class=" d-flex justify-content-between flex-wrap">
+        <?php
+        $users=$pdo->query("select * from `users`")->fetchAll();
+        foreach($users as $user){
         ?>
-        </td>
-        <td><?=($row['name']=='')?'':$row['name'];?></td>
-        <td><?=($row['bus']=='')?'未分派':$row['bus'];?></td>
-        <td>
-            <button class="btn btn-warning" onclick="load('edit_user.php?id=<?=$row['id'];?>')">編輯</button>
-            <button class="btn btn-danger" onclick="del('users',<?=$row['id'];?>)">刪除</button>
-        </td>
-    </tr>    
-    <?php 
-    }
-    ?>    
-    </tbody>
-    </table>
+        <div class="border d-flex justify-content-between align-items-center p-2 col-4">
+            <div>
+                <!-- 
+                    1.增加checkbox 來決定是否參加
+                    2.增加value來儲存使用者id
+                    3.根據user中的join 欄位來判斷checked的狀態是空白還是打勾
+                       空白代表未參加，打勾代表已參加
+                 -->
+                <input type="checkbox" name="join" id="join" value="<?=$user['id'];?>" <?=($user['join']==1)?'checked':'';?>>
+                <?=$user['email'];?>
+            </div>
+            <div>
+                <button class="btn btn-warning btn-sm" onclick="edit('users',<?=$user['id'];?>)">編輯</button>
+                <button class="btn btn-danger btn-sm" onclick="del('users',<?=$user['id'];?>)">刪除</button>
+            </div>
+        </div>
+        <?php
+        }
+        ?>
+    
+    </div>
 </div>
 
 <script>
