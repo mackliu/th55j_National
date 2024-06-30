@@ -26,4 +26,10 @@ for($i=0;$i<$count;$i++){
 
 }
 
+//分配完接駁車後將調查表關閉
+$pdo->exec("UPDATE `form` SET `active`='0' WHERE `id`=1");
+
+//分配完接駁車後清空意見調表資料表(survey)
+$pdo->exec("TRUNCATE TABLE `survey`")
+
 ?>

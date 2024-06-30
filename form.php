@@ -28,6 +28,7 @@
     </div>
     <div class="row w-100">
         <input type="button" value="送出" class='col-12 btn btn-success my-1' onclick='save()'>
+        <input type="button" value="不參與調查" class='col-12 btn btn-secondary my-1' onclick="location.href='index.php'">
     </div>
 </form>
 <script>
@@ -55,12 +56,9 @@
                     break;
                     default:
                         alert("感謝回覆調查");
-                        //location.href="index.php";
-                }
-                //完成意見調查後，重新載入，導回首頁
-                location.href="index.php";
-            
-                
+                        //完成回覆調查後導回首頁
+                        location.href="index.php";
+                }            
             })
 
     }

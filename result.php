@@ -3,11 +3,6 @@
 //使用group by bus取得所有result資料表中的接駁車名稱
 $busses=$pdo->query("select `bus` from `result` group by `bus`")->fetchAll(PDO::FETCH_ASSOC);
 
-//若接駁車名稱為空，則回傳0，並結束程式
-if(empty($busses)){
-    echo 0;
-    exit();
-}
 
 //建立一個空陣列$result，用來存放接駁車名稱及參與者資料
 $result=[];
