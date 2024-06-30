@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-06-23 05:54:10
--- 伺服器版本： 10.4.27-MariaDB
--- PHP 版本： 8.2.0
+-- 產生時間： 2024-06-30 06:30:37
+-- 伺服器版本： 10.4.25-MariaDB
+-- PHP 版本： 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- 資料庫： `db03`
+-- 資料庫： `th54j_national`
 --
 
 -- --------------------------------------------------------
@@ -29,8 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admin` (
   `id` int(10) UNSIGNED NOT NULL,
-  `acc` text NOT NULL,
-  `pw` text NOT NULL
+  `acc` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pw` text COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -48,7 +48,7 @@ INSERT INTO `admin` (`id`, `acc`, `pw`) VALUES
 
 CREATE TABLE `bus` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` text NOT NULL,
+  `name` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `minute` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -105,9 +105,9 @@ INSERT INTO `number` (`id`, `number`) VALUES
 
 CREATE TABLE `result` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` text DEFAULT NULL,
-  `email` text NOT NULL,
-  `bus` text DEFAULT NULL
+  `name` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `bus` text COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -125,7 +125,7 @@ INSERT INTO `result` (`id`, `name`, `email`, `bus`) VALUES
 
 CREATE TABLE `station` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` text NOT NULL,
+  `name` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `rank` int(10) UNSIGNED NOT NULL,
   `minute` int(10) NOT NULL,
   `waiting` int(10) NOT NULL
@@ -148,142 +148,218 @@ INSERT INTO `station` (`id`, `name`, `rank`, `minute`, `waiting`) VALUES
 -- --------------------------------------------------------
 
 --
+-- 資料表結構 `survey`
+--
+
+CREATE TABLE `survey` (
+  `id` int(10) NOT NULL,
+  `name` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` text COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- 資料表結構 `users`
 --
 
 CREATE TABLE `users` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` text DEFAULT NULL,
-  `email` text NOT NULL,
-  `bus` text DEFAULT NULL,
-  `status` int(1) DEFAULT 1
+  `email` text COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- 傾印資料表的資料 `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `bus`, `status`) VALUES
-(2, '凯倫', 'karen79@aol.com', NULL, 1),
-(3, NULL, 'helen38@hinet.net', NULL, 0),
-(4, '多娜', 'donna26@aol.com', NULL, 1),
-(5, NULL, 'elizabeth24@yahoo.com', NULL, 0),
-(6, NULL, 'timothy74@example.com', NULL, 0),
-(7, NULL, 'john75@gmail.com', NULL, 0),
-(8, NULL, 'edward05@gmail.com', NULL, 0),
-(9, NULL, 'donald31@aol.com', NULL, 0),
-(10, NULL, 'lisa33@yahoo.com', NULL, 0),
-(11, NULL, 'kenneth36@example.com', NULL, 0),
-(12, NULL, 'kevin10@hinet.net', NULL, 0),
-(13, NULL, 'barbara29@hinet.net', NULL, 0),
-(14, NULL, 'sarah46@test.com', NULL, 0),
-(15, NULL, 'ronald35@hinet.net', NULL, 0),
-(16, NULL, 'betty30@example.com', NULL, 0),
-(17, NULL, 'donna12@test.com', NULL, 0),
-(18, NULL, 'donald31@aol.com', NULL, 0),
-(19, NULL, 'margaret40@gmail.com', NULL, 0),
-(20, NULL, 'karen84@gmail.com', NULL, 0),
-(21, NULL, 'robert26@hinet.net', NULL, 0),
-(22, NULL, 'john77@yahoo.com', NULL, 0),
-(23, NULL, 'patricia81@hinet.net', NULL, 0),
-(24, NULL, 'jason51@aol.com', NULL, 0),
-(25, NULL, 'paul17@hinet.net', NULL, 0),
-(26, NULL, 'brian55@gmail.com', NULL, 0),
-(27, NULL, 'paul16@yahoo.com', NULL, 0),
-(28, NULL, 'kenneth41@aol.com', NULL, 0),
-(29, NULL, 'timothy55@test.com', NULL, 0),
-(30, NULL, 'barbara12@aol.com', NULL, 0),
-(31, NULL, 'jane31@yahoo.com', NULL, 0),
-(32, NULL, 'lisa74@aol.com', NULL, 0),
-(33, NULL, 'linda54@yahoo.com', NULL, 0),
-(34, NULL, 'james52@gmail.com', NULL, 0),
-(35, NULL, 'lisa84@gmail.com', NULL, 0),
-(36, NULL, 'margaret06@gmail.com', NULL, 0),
-(37, NULL, 'donald15@yahoo.com', NULL, 0),
-(38, NULL, 'barbara83@yahoo.com', NULL, 0),
-(39, NULL, 'steven63@yahoo.com', NULL, 0),
-(40, NULL, 'betty26@aol.com', NULL, 0),
-(41, NULL, 'ronald03@test.com', NULL, 0),
-(42, NULL, 'jane40@test.com', NULL, 0),
-(43, NULL, 'john78@gmail.com', NULL, 0),
-(44, NULL, 'jennifer96@gmail.com', NULL, 0),
-(45, NULL, 'steven58@hotmail.com', NULL, 0),
-(46, NULL, 'laura56@aol.com', NULL, 0),
-(47, NULL, 'susan58@example.com', NULL, 0),
-(48, NULL, 'timothy03@test.com', NULL, 0),
-(49, NULL, 'john14@aol.com', NULL, 0),
-(50, NULL, 'paul42@test.com', NULL, 0),
-(51, NULL, 'jane17@aol.com', NULL, 0),
-(52, NULL, 'robert78@example.com', NULL, 0),
-(53, NULL, 'betty64@hinet.net', NULL, 0),
-(54, NULL, 'charles39@yahoo.com', NULL, 0),
-(55, NULL, 'margaret12@hotmail.com', NULL, 0),
-(56, NULL, 'ronald11@hinet.net', NULL, 0),
-(57, NULL, 'edward24@hotmail.com', NULL, 0),
-(58, NULL, 'jason91@yahoo.com', NULL, 0),
-(59, NULL, 'laura40@test.com', NULL, 0),
-(60, NULL, 'sarah86@example.com', NULL, 0),
-(61, NULL, 'karen07@gmail.com', NULL, 0),
-(62, NULL, 'david46@aol.com', NULL, 0),
-(63, NULL, 'paul52@test.com', NULL, 0),
-(64, NULL, 'nancy26@example.com', NULL, 0),
-(65, NULL, 'john18@gmail.com', NULL, 0),
-(66, NULL, 'margaret02@aol.com', NULL, 0),
-(67, NULL, 'nancy49@test.com', NULL, 0),
-(68, NULL, 'thomas26@hinet.net', NULL, 0),
-(69, NULL, 'charles98@hinet.net', NULL, 0),
-(70, NULL, 'helen41@hinet.net', NULL, 0),
-(71, NULL, 'nancy73@gmail.com', NULL, 0),
-(72, NULL, 'donna76@hotmail.com', NULL, 0),
-(73, NULL, 'barbara65@aol.com', NULL, 0),
-(74, NULL, 'nancy18@hinet.net', NULL, 0),
-(75, NULL, 'helen39@test.com', NULL, 0),
-(76, NULL, 'elizabeth56@yahoo.com', NULL, 0),
-(77, NULL, 'kevin87@aol.com', NULL, 0),
-(78, NULL, 'donna81@test.com', NULL, 0),
-(79, NULL, 'karen72@hotmail.com', NULL, 0),
-(80, NULL, 'barbara20@hotmail.com', NULL, 0),
-(81, NULL, 'kenneth58@hotmail.com', NULL, 0),
-(82, NULL, 'margaret70@test.com', NULL, 0),
-(83, NULL, 'edward90@yahoo.com', NULL, 0),
-(84, NULL, 'john44@aol.com', NULL, 0),
-(85, NULL, 'margaret28@test.com', NULL, 0),
-(86, NULL, 'margaret09@hotmail.com', NULL, 0),
-(87, NULL, 'robert40@aol.com', NULL, 0),
-(88, NULL, 'timothy28@test.com', NULL, 0),
-(89, NULL, 'donald93@gmail.com', NULL, 0),
-(90, NULL, 'laura85@hotmail.com', NULL, 0),
-(91, NULL, 'kenneth66@example.com', NULL, 0),
-(92, NULL, 'mary37@hinet.net', NULL, 0),
-(93, NULL, 'anthony45@hinet.net', NULL, 0),
-(94, NULL, 'betty34@hotmail.com', NULL, 0),
-(95, NULL, 'jason97@test.com', NULL, 0),
-(96, NULL, 'mary38@example.com', NULL, 0),
-(97, NULL, 'edward12@gmail.com', NULL, 0),
-(98, NULL, 'elizabeth36@test.com', NULL, 0),
-(99, NULL, 'linda00@hotmail.com', NULL, 0),
-(100, NULL, 'mary87@hinet.net', NULL, 0),
-(101, NULL, 'betty52@yahoo.com', NULL, 0),
-(102, NULL, 'steven64@test.com', NULL, 0),
-(103, NULL, 'mark96@hinet.net', NULL, 0),
-(104, NULL, 'karen38@example.com', NULL, 0),
-(105, NULL, 'robert93@hinet.net', NULL, 0),
-(106, NULL, 'charles00@yahoo.com', NULL, 0),
-(107, NULL, 'dorothy78@example.com', NULL, 0),
-(108, NULL, 'mary02@gmail.com', NULL, 0),
-(109, NULL, 'jason28@gmail.com', NULL, 0),
-(110, NULL, 'elizabeth58@yahoo.com', NULL, 0),
-(111, NULL, 'john20@hinet.net', NULL, 0),
-(112, NULL, 'sandra49@hotmail.com', NULL, 0),
-(113, NULL, 'david21@hotmail.com', NULL, 0),
-(114, NULL, 'patricia33@aol.com', NULL, 0),
-(115, NULL, 'brian99@example.com', NULL, 0),
-(116, NULL, 'anthony18@hotmail.com', NULL, 0),
-(117, NULL, 'patricia44@gmail.com', NULL, 0),
-(118, NULL, 'linda05@example.com', NULL, 0),
-(119, NULL, 'steven49@test.com', NULL, 0),
-(120, NULL, 'thomas56@yahoo.com', NULL, 0),
-(121, NULL, '123123@dfsdf', NULL, 0);
+INSERT INTO `users` (`id`, `email`) VALUES
+(4, 'donna26@aol.com'),
+(5, 'elizabeth24@yahoo.com'),
+(6, 'timothy74@example.com'),
+(7, 'john75@gmail.com'),
+(8, 'edward05@gmail.com'),
+(9, 'donald31@aol.com'),
+(10, 'lisa33@yahoo.com'),
+(11, 'kenneth36@example.com'),
+(12, 'kevin10@hinet.net'),
+(13, 'barbara29@hinet.net'),
+(14, 'sarah46@test.com'),
+(15, 'ronald35@hinet.net'),
+(16, 'betty30@example.com'),
+(17, 'donna12@test.com'),
+(18, 'donald31@aol.com'),
+(19, 'margaret40@gmail.com'),
+(20, 'karen84@gmail.com'),
+(21, 'robert26@hinet.net'),
+(22, 'john77@yahoo.com'),
+(23, 'patricia81@hinet.net'),
+(24, 'jason51@aol.com'),
+(26, 'brian55@gmail.com'),
+(27, 'paul16@yahoo.com'),
+(28, 'kenneth41@aol.com'),
+(29, 'timothy55@test.com'),
+(30, 'barbara12@aol.com'),
+(31, 'jane31@yahoo.com'),
+(32, 'lisa74@aol.com'),
+(33, 'linda54@yahoo.com'),
+(34, 'james52@gmail.com'),
+(35, 'lisa84@gmail.com'),
+(36, 'margaret06@gmail.com'),
+(37, 'donald15@yahoo.com'),
+(38, 'barbara83@yahoo.com'),
+(39, 'steven63@yahoo.com'),
+(40, 'betty26@aol.com'),
+(41, 'ronald03@test.com'),
+(42, 'jane40@test.com'),
+(43, 'john78@gmail.com'),
+(44, 'jennifer96@gmail.com'),
+(45, 'steven58@hotmail.com'),
+(46, 'laura56@aol.com'),
+(47, 'susan58@example.com'),
+(48, 'timothy03@test.com'),
+(49, 'john14@aol.com'),
+(50, 'paul42@test.com'),
+(51, 'jane17@aol.com'),
+(52, 'robert78@example.com'),
+(53, 'betty64@hinet.net'),
+(54, 'charles39@yahoo.com'),
+(55, 'margaret12@hotmail.com'),
+(56, 'ronald11@hinet.net'),
+(57, 'edward24@hotmail.com'),
+(58, 'jason91@yahoo.com'),
+(59, 'laura40@test.com'),
+(60, 'sarah86@example.com'),
+(61, 'karen07@gmail.com'),
+(62, 'david46@aol.com'),
+(63, 'paul52@test.com'),
+(64, 'nancy26@example.com'),
+(65, 'john18@gmail.com'),
+(66, 'margaret02@aol.com'),
+(67, 'nancy49@test.com'),
+(68, 'thomas26@hinet.net'),
+(69, 'charles98@hinet.net'),
+(70, 'helen41@hinet.net'),
+(71, 'nancy73@gmail.com'),
+(72, 'donna76@hotmail.com'),
+(73, 'barbara65@aol.com'),
+(74, 'nancy18@hinet.net'),
+(75, 'helen39@test.com'),
+(76, 'elizabeth56@yahoo.com'),
+(77, 'kevin87@aol.com'),
+(78, 'donna81@test.com'),
+(79, 'karen72@hotmail.com'),
+(80, 'barbara20@hotmail.com'),
+(81, 'kenneth58@hotmail.com'),
+(82, 'margaret70@test.com'),
+(83, 'edward90@yahoo.com'),
+(84, 'john44@aol.com'),
+(85, 'margaret28@test.com'),
+(86, 'margaret09@hotmail.com'),
+(87, 'robert40@aol.com'),
+(88, 'timothy28@test.com'),
+(89, 'donald93@gmail.com'),
+(90, 'laura85@hotmail.com'),
+(91, 'kenneth66@example.com'),
+(92, 'mary37@hinet.net'),
+(93, 'anthony45@hinet.net'),
+(94, 'betty34@hotmail.com'),
+(95, 'jason97@test.com'),
+(96, 'mary38@example.com'),
+(97, 'edward12@gmail.com'),
+(98, 'elizabeth36@test.com'),
+(99, 'linda00@hotmail.com'),
+(100, 'mary87@hinet.net'),
+(101, 'betty52@yahoo.com'),
+(102, 'steven64@test.com'),
+(103, 'mark96@hinet.net'),
+(104, 'karen38@example.com'),
+(105, 'robert93@hinet.net'),
+(106, 'charles00@yahoo.com'),
+(107, 'dorothy78@example.com'),
+(108, 'mary02@gmail.com'),
+(109, 'jason28@gmail.com'),
+(110, 'elizabeth58@yahoo.com'),
+(111, 'john20@hinet.net'),
+(112, 'sandra49@hotmail.com'),
+(113, 'david21@hotmail.com'),
+(114, 'patricia33@aol.com'),
+(115, 'brian99@example.com'),
+(116, 'anthony18@hotmail.com'),
+(117, 'patricia44@gmail.com'),
+(118, 'linda05@example.com'),
+(119, 'steven49@test.com'),
+(120, 'thomas56@yahoo.com'),
+(121, '123123@dfsdf'),
+(122, 'sandra49@hinet.net'),
+(123, 'george32@aol.com'),
+(124, 'john85@gmail.com'),
+(125, 'dorothy75@hotmail.com'),
+(126, 'mark56@example.com'),
+(127, 'patricia79@example.com'),
+(128, 'mark21@yahoo.com'),
+(129, 'sandra07@aol.com'),
+(130, 'ronald07@hotmail.com'),
+(131, 'linda53@gmail.com'),
+(132, 'betty86@hotmail.com'),
+(133, 'timothy86@test.com'),
+(134, 'mark07@hinet.net'),
+(135, 'patricia27@hinet.net'),
+(136, 'maria93@gmail.com'),
+(137, 'patricia81@gmail.com'),
+(138, 'david16@gmail.com'),
+(139, 'james70@test.com'),
+(140, 'dorothy57@gmail.com'),
+(141, 'jane65@test.com'),
+(142, 'jennifer78@example.com'),
+(143, 'steven43@example.com'),
+(144, 'sandra45@aol.com'),
+(145, 'maria16@hinet.net'),
+(146, 'jennifer91@example.com'),
+(147, 'john15@example.com'),
+(148, 'betty52@hinet.net'),
+(149, 'mark05@aol.com'),
+(150, 'george86@hinet.net'),
+(151, 'steven64@hotmail.com'),
+(152, 'donna58@aol.com'),
+(153, 'michael73@aol.com'),
+(154, 'linda37@example.com'),
+(155, 'nancy62@example.com'),
+(156, 'jason50@example.com'),
+(157, 'kenneth64@hotmail.com'),
+(158, 'jennifer19@yahoo.com'),
+(159, 'jane52@gmail.com'),
+(160, 'david76@gmail.com'),
+(161, 'donna33@hotmail.com'),
+(162, 'lisa73@example.com'),
+(163, 'anthony33@hotmail.com'),
+(164, 'mark43@gmail.com'),
+(165, 'sandra99@hotmail.com'),
+(166, 'betty61@example.com'),
+(167, 'helen52@hotmail.com'),
+(168, 'lisa05@hinet.net'),
+(169, 'jennifer96@test.com'),
+(170, 'nancy93@test.com'),
+(171, 'margaret02@aol.com'),
+(172, 'steven43@yahoo.com'),
+(173, 'karen59@yahoo.com'),
+(174, 'patricia53@test.com'),
+(175, 'ronald43@hotmail.com'),
+(176, 'maria90@yahoo.com'),
+(177, 'brian63@aol.com'),
+(178, 'elizabeth50@hinet.net'),
+(179, 'kevin10@example.com'),
+(180, 'brian40@hinet.net'),
+(181, 'charles33@aol.com'),
+(182, 'james52@hinet.net'),
+(183, 'kenneth38@yahoo.com'),
+(184, 'patricia21@example.com'),
+(185, 'ronald19@gmail.com'),
+(186, 'robert49@test.com'),
+(187, 'steven24@yahoo.com'),
+(188, 'edward65@test.com'),
+(189, 'david10@hinet.net'),
+(190, 'robert79@hotmail.com'),
+(191, 'helen42@example.com\n');
 
 --
 -- 已傾印資料表的索引
@@ -323,6 +399,12 @@ ALTER TABLE `result`
 -- 資料表索引 `station`
 --
 ALTER TABLE `station`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- 資料表索引 `survey`
+--
+ALTER TABLE `survey`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -372,10 +454,16 @@ ALTER TABLE `station`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
+-- 使用資料表自動遞增(AUTO_INCREMENT) `survey`
+--
+ALTER TABLE `survey`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- 使用資料表自動遞增(AUTO_INCREMENT) `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=192;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
