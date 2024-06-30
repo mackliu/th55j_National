@@ -57,6 +57,10 @@
                         alert("感謝回覆調查");
                         //location.href="index.php";
                 }
+                //完成意見調查後，重新載入，導回首頁
+                location.href="index.php";
+            
+                
             })
 
     }

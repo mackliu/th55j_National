@@ -18,39 +18,84 @@
         <div>
             <!-- 取得預計接駁車數量 -->
             <?php  //$busNum=$pdo->query("select ceil(count(*)/$number) from `users` where `status`='1'")->fetchColumn();?>
-            預計接駁車數量：<button class="btn btn-info" onclick="allocate()">分配接駁車</button>
+            預計接駁車數量：<button class="btn btn-info" onclick="allocateBus()">分配接駁車</button>
         </div>
     </div>
     <h2 class="text-center border-b pb-2">參與者清單</h2>
-    <div id="users" class=" d-flex justify-content-between flex-wrap">
-        <?php
-        $users=$pdo->query("select * from `users`")->fetchAll();
-        foreach($users as $user){
-        ?>
-        <div class="border d-flex justify-content-between align-items-center p-2 col-4">
-            <div>
-                <!-- 
-                    1.增加checkbox 來決定是否參加
-                    2.增加value來儲存使用者id
-                    3.根據user中的join 欄位來判斷checked的狀態是空白還是打勾
-                       空白代表未參加，打勾代表已參加
-                 -->
-                <input type="checkbox" name="join" id="join" value="<?=$user['id'];?>" <?=($user['join']==1)?'checked':'';?>>
-                <?=$user['email'];?>
-            </div>
-            <div>
-                <button class="btn btn-warning btn-sm" onclick="edit('users',<?=$user['id'];?>)">編輯</button>
-                <button class="btn btn-danger btn-sm" onclick="del('users',<?=$user['id'];?>)">刪除</button>
-            </div>
-        </div>
-        <?php
-        }
-        ?>
-    
+    <!-- 參與者清單區塊，使用overflow屬性來建立一個有高度限制的區域放置參與者清單-->
+    <div id="users" class=" d-flex justify-content-between align-items-start flex-wrap w-100" style='overflow:auto;height:25rem'>
+
+    </div>
+
+    <h2 class="text-center border-b pb-2">意願調查結果</h2>
+    <!-- 意願調查結果區塊 -->
+    <div id="surveys" class="d-flex justify-content-between align-items-start flex-wrap w-100" style='overflow:auto;height:25rem'>
+        <h3 class="text-center">意願調查關閉中</h3>
     </div>
 </div>
 
 <script>
+//在頁面載入時，呼叫一次get_participants()，取得參與者清單
+get_participants();
+
+//在頁面載入時，呼叫一次get_surveys()，取得意願調查結果
+get_surveys()
+
+//建立一個function get_participants()，用來透過api的json資料取得參與者清單
+function get_participants(){
+    //呼叫api/participants.php，取得參與者清單
+    $.get("./participants.php",function(users){
+        //若參與者清單為空，則在參與者清單區塊內顯示"目前尚無參與者"
+        if(users.length==0){
+            $("#users").html("目前尚無參與者")
+            return;
+        }
+        //清空參與者清單區塊內容
+        $("#users").empty();
+        //將參與者清單逐一顯示在畫面上
+        users.forEach(user => {
+            
+            $("#users").append(`
+            <div class="border d-flex justify-content-between align-items-center p-2 col-4">
+                <div>
+                    ${user.email}
+                </div>
+                <div>
+                    <button class="btn btn-warning btn-sm" onclick="edit('users',${user.id})">編輯</button>
+                    <button class="btn btn-danger btn-sm" onclick="del('users',${user.id})">刪除</button>
+                </div>
+            </div>
+            `)
+        });
+    })
+}
+
+//建立一個function get_surveys()，用來透過api的json資料取得意願調查結果
+function get_surveys(){
+    $.get("./api/get_surveys.php",function(results){
+        if(results.length==0){
+            $("#surveys").html("<h3 class='text-center'>目前尚無意願調查結果</h3>")
+            return;
+        }
+        $("#surveys").empty();
+        results.forEach(result => {
+            $("#surveys").append(`
+            <div class="border d-flex justify-content-between align-items-center p-2 col-4">
+                <div>
+                    ${result.email}
+                </div>
+                <div>
+                    <button class="btn btn-warning btn-sm" onclick="edit('survey',${result.id})">編輯</button>
+                    <button class="btn btn-danger btn-sm" onclick="del('survey',${result.id})">刪除</button>
+                </div>
+            </div>
+            `)
+        });
+    })
+}
+
+
+//建立一個function form_status()，用來控制表單的啟用狀態
 function form_status(){
     let status=$("#form_status").data("status");
     $.post("api/form_status.php",{status},function(){
@@ -60,8 +105,8 @@ function form_status(){
         setActive('AdminForm')
     })
 }
-function allocate(){
-    $.get("./api/allocate.php",()=>{
+function allocateBus(){
+    $.get("./api/allocate_bus.php",()=>{
         alert("接駁車分配完畢")
         load('admin_form.php');
         setActive('AdminForm')

@@ -56,20 +56,6 @@ function setActive(id){
 }
 
 /**
- * 載入指定的頁面
- */
-function load(page){
-    $(".main").load(`./pages/${page}`,function(){
-
-        //載入站點管理頁面時，設定表格可拖曳排序
-        if(page=="admin_station.php"){
-            setDragable("station");
-        }
-
-    })
-}
-
-/**
  * 設定表格可拖曳排序
  */
 function setDragable(table){

@@ -34,7 +34,9 @@ function del(table,id){
                     load('admin_station.php');
                     setActive("AdminStation");
                 break;
+                //刪除users或survey時，載入admin_form.php
                 case 'users':
+                case 'survey':
                     load('admin_form.php');
                     setActive("AdminForm");
                 break;
@@ -72,5 +74,20 @@ function edit(table,id){
 
         //將station物件中的id資料寫入到頁面上id為editId的input欄位的值
         $("#editId").val(data.id);
+    })
+}
+
+
+/**
+ * 載入指定的頁面
+ */
+function load(page){
+    $(".main").load(`./pages/${page}`,function(){
+
+        //載入站點管理頁面時，設定表格可拖曳排序
+        if(page=="admin_station.php"){
+            setDragable("station");
+        }
+
     })
 }

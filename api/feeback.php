@@ -12,18 +12,18 @@ if(!$active){
     exit();
 }
 //檢查email是否已在email列表中
-$exit=$pdo->query("select count(*) from `users` where `email`='$email'")->fetchColumn();
-if(!$exit){
+$exist=$pdo->query("select count(*) from `users` where `email`='$email'")->fetchColumn();
+if(!$exist){
     echo 2; //回傳2代表email不在email列表中
     exit();
 }
 
 //檢查是否已填寫過表單
-$feeback=$pdo->query("select `status` from `users` where email='$email'")->fetchColumn();
+$feeback=$pdo->query("select count(*) from `survey` where email='$email'")->fetchColumn();
 if($feeback){
     echo 1;  //回傳1代表已回應或已填寫過表單
     exit();
 }
 
-//通過以上的檢查，則將使用者資料更新到資料表users
-$pdo->exec("update `users` set `name`='$name',`status`=1 where `email`='$email'");
+//通過以上的檢查，則將使用者資料新增到survey資料表中
+$pdo->exec("insert into `survey` (`name`,`email`) values ('$name','$email')");
