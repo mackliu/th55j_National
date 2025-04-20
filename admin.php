@@ -14,7 +14,7 @@ if(!isset($_SESSION['login'])){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>南港展覽館接駁專車-系統管理</title>
+    <title>Public Transit Query System 大眾運輸查詢系統</title>
     <link rel="stylesheet" href="./css/bootstrap.css">
     <link rel="stylesheet" href="./js/jquery-ui.css">
     <script src="./js/jquery.js"></script>

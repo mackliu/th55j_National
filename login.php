@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>南港展覽館接駁專車-管理員登入</title>
+    <title>Public Transit Query System 大眾運輸查詢系統</title>
     <link rel="stylesheet" href="./css/bootstrap.css">
 
 </head>
@@ -32,22 +32,22 @@
     ?>
     <div class="row w-100">
         <label for="" class="col-2">帳號</label>   
-        <input  type="text" name="acc" id="acc" class='form-group form-control col-10'>
+        <input  type="text" name="username"  class='form-group form-control col-10'>
     </div>
     <div class="row w-100">
         <label for="" class="col-2">密碼</label>   
-        <input  type="password" name="pw" id="pw" class='form-group form-control col-10'>
+        <input  type="password" name="password"  class='form-group form-control col-10'>
     </div>
     <div class="row w-100 align-items-center">
         <label for="" class="col-2">驗證碼</label>   
-        <input  type="text" name="code" id="code" class='form-group form-control col-5'>
+        <input  type="text" name="captcha"  class='form-group form-control col-5'>
                                                 <!--驗證碼按鈕-->
-        <div class="btn btn-primary btn-lg m-2" id="btnCode"></div>
-        <div class="btn btn-dark m-2" id="resetCode">重新產生驗證碼</div>
+        <div class="btn btn-primary btn-lg m-2" id="captcha"></div>
+        <div class="btn btn-dark m-2" id="regenerate-captcha-button">重新產生驗證碼</div>
     </div>
 
     <div class="row w-100">
-        <input  type="submit" value="登入" class='col-12 btn btn-success '>
+        <input  type="submit" value="登入" class='col-12 btn btn-success ' id="login-button">
     </div>
 
     </form>
@@ -62,15 +62,15 @@
 getCode()
 
 //重設驗證碼時，使用ajax向後端請求新的驗證碼，並更新至btnCode按鈕中
-$("#resetCode").on('click',function(){
+$("#regenerate-captcha-button").on('click',function(){
     getCode()
 })
 
 
 //將更新驗證碼的功能包裝成一個函式
 function getCode(){
-    $.get("./api/reset_code.php",(code)=>{
-        $("#btnCode").text(code)
+    $.get("./api/reset_code.php",(captcha)=>{
+        $("#captcha").text(captcha)
     })
 }
 </script>

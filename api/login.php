@@ -1,6 +1,6 @@
 <?php include_once "db.php";
 
-if($_POST['code']!=$_SESSION['code']){
+if($_POST['captcha']!=$_SESSION['captcha']){
     header("location:../login.php?error=2");
     
     //增加exit()來終止程式，避免繼續執行後面的帳密判斷
@@ -22,7 +22,7 @@ if($admin==1){
 } */
 
 //簡易登入方式
-if($_POST['acc']=='admin' && $_POST['pw']=='1234'){
+if($_POST['username']=='admin' && $_POST['password']=='1234'){
 
     //帳密正確時，將$_SESSION['login']設為1
     $_SESSION['login']=1;

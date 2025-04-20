@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>南港展覽館接駁專車-接駁車查詢</title>
+    <title>Public Transit Query System 大眾運輸查詢系統</title>
     <link rel="stylesheet" href="./css/bootstrap.css">
     <script src="./js/jquery.js"></script>
     <script src="./js/js.js"></script>
