@@ -1,10 +1,11 @@
 <?php include_once "../api/db.php";?>
 <div class="list">
-<h1 class="text-center my-3 border">接駁車管理</h1>
+<h1 class="text-center my-3 border">車輛管理</h1>
 <button class="btn btn-success" onclick="load('add_bus.php')">新增</button>
 <table class='table table-bordered text-center w-100' id='bus'>
     <thead>
     <tr>
+        <td>路線</td>
         <td>車牌</td>
         <td>已行駛時間</td>
         <td>操作</td>
@@ -17,6 +18,7 @@
         foreach($rows as $row){
     ?>
     <tr data-id="<?=$row['id'];?>">
+        <td></td>
         <td><?=$row['name'];?></td>
         <td><?=$row['minute'];?>分鐘</td>
         <td>

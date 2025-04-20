@@ -2,7 +2,7 @@
 $bus=$pdo->query("select * from `bus` where `id`='{$_GET['id']}'")->fetch(PDO::FETCH_ASSOC);
 
 ?>
-<h1 class="text-center my-3 border">修改「<?=$bus['name'];?>」接駁車</h1>
+<h1 class="text-center my-3 border">修改 XX 路線「<?=$bus['name'];?>」車輛</h1>
 <form >
     <div class="row w-100">
     <label for="" class="col-2">已行駛時間(分鐘)</label>

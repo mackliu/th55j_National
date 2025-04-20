@@ -1,5 +1,9 @@
-<h1 class="text-center my-3 border">新增接駁車</h1>
+<h1 class="text-center my-3 border">新增車輛</h1>
 <form>
+    <div class="row w-100">
+        <label for="" class="col-2">路線</label>
+        <input type="text" name='route' id='route' class="form-group form-control col-10">
+    </div>
     <div class="row w-100">
         <label for="" class="col-2">車牌</label>
         <input type="text" name='name' id='name' class="form-group form-control col-10">

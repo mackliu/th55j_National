@@ -7,8 +7,6 @@
         <thead>
     <tr>
         <td style="width:30%">站點名稱</td>
-        <td style="width:20%">行駛時間(分鐘)</td>
-        <td style="width:20%">停留時間(分鐘)</td>
         <td style="width:30%">操作</td>
     </tr>
         </thead>    
@@ -22,8 +20,6 @@
     ?>
     <tr data-id="<?=$row['id'];?>">
         <td><?=$row['name'];?></td>
-        <td><?=$row['minute'];?>分鐘</td>
-        <td><?=$row['waiting'];?>分鐘</td>
         <td>
             <button class="btn btn-warning" onclick="load('edit_station.php?id=<?=$row['id'];?>')">編輯</button>
             <button class="btn btn-danger" onclick="del('station',<?=$row['id'];?>)">刪除</button>

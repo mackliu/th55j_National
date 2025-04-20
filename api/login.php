@@ -12,7 +12,7 @@ if($_POST['captcha']!=$_SESSION['captcha']){
 //使用計算符合條件的筆數，如果有一筆以上，則代表帳密正確
 $admin=$pdo->query("SELECT count(*) 
                     FROM admin 
-                    WHERE acc='{$_POST['acc']}' && `pw`='{$_POST['pw']}'")
+                    WHERE username='{$_POST['username']}' && `password`='{$_POST['password']}'")
             ->fetchColumn();
 if($admin==1){
     $_SESSION['login']=1;
