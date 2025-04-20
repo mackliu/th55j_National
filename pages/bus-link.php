@@ -1,7 +1,7 @@
 <?php include_once "../api/db.php";?>
 <div class="list">
 <h1 class="text-center my-3 border">車輛管理</h1>
-<button class="btn btn-success" onclick="load('add_bus.php')">新增</button>
+<button class="btn btn-success" id="add-bus-button" onclick="load('add_bus.php')">新增</button>
 <table class='table table-bordered text-center w-100' id='bus'>
     <thead>
     <tr>
@@ -18,12 +18,12 @@
         foreach($rows as $row){
     ?>
     <tr data-id="<?=$row['id'];?>">
-        <td></td>
-        <td><?=$row['name'];?></td>
-        <td><?=$row['minute'];?>分鐘</td>
+        <td class="bus-route"></td>
+        <td class="bus-plate"><?=$row['name'];?></td>
+        <td class="bus-runtime"><?=$row['minute'];?>分鐘</td>
         <td>
-            <button class="btn btn-warning" onclick="load('edit_bus.php?id=<?=$row['id'];?>')">編輯</button>
-            <button class="btn btn-danger" onclick="del('bus',<?=$row['id'];?>)">刪除</button>
+            <button class="btn btn-warning edit-bus-button" data-bus-plate="<?=$row['name'];?>" onclick="load('edit_bus.php?id=<?=$row['id'];?>')">編輯</button>
+            <button class="btn btn-danger delete-bus-button" data-bus-plate="<?=$row['name'];?>" onclick="del('bus',<?=$row['id'];?>)">刪除</button>
         </td>
     </tr>
     <?php

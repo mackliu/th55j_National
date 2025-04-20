@@ -5,17 +5,17 @@ $station=$pdo->query("SELECT * FROM `station` WHERE `id`='{$_GET['id']}'")->fetc
     <form>
     <div class="row w-100">
         <label for="" class="col-2">站點名稱</label>   
-        <input  type="text" name="name" id="name" value="<?=$station['name'];?>" class='form-group form-control col-10'
+        <input  type="text" name="station-name" id="station-name" value="<?=$station['name'];?>" class='form-group form-control col-10'
                  required>
     </div>
     <div class="row w-100">
-        <input  type="button" value="修改" class='col-12 btn btn-success my-1' onclick="save()">
-        <input  type="button" value="回上頁" class='col-12 btn btn-secondary my-1' onclick="load('admin_station.php');setActive('AdminStation')">
+        <input  type="button" id="edit-button" value="修改" class='col-12 btn btn-success my-1' onclick="save()">
+        <input  type="button" id="back-button" value="回上頁" class='col-12 btn btn-secondary my-1' onclick="load('admin_station.php');setActive('AdminStation')">
     </div>
     </form>
     <script>
 function save(){
-    let data={minute:$("#minute").val(),
+    let data={minute:$("#runtime").val(),
               waiting:$("#waiting").val(),
               id:<?=$station['id'];?>
         }

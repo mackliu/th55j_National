@@ -1,7 +1,7 @@
 <?php include_once "../api/db.php";?>
 <div class="list">
     <h1 class="border p-3 text-center my-3">站點管理 
-        <button class="btn btn-success" onclick="load('add_station.php')">新增</button>
+        <button class="btn btn-success" id="add-station-button" onclick="load('add_station.php')">新增</button>
     </h1>
     <table class="table table-bordered text-center" id='station'>
         <thead>
@@ -19,10 +19,10 @@
     foreach($rows as $key => $row){
     ?>
     <tr data-id="<?=$row['id'];?>">
-        <td><?=$row['name'];?></td>
+        <td class="station-name"><?=$row['name'];?></td>
         <td>
-            <button class="btn btn-warning" onclick="load('edit_station.php?id=<?=$row['id'];?>')">編輯</button>
-            <button class="btn btn-danger" onclick="del('station',<?=$row['id'];?>)">刪除</button>
+            <button class="btn btn-warning" id="edit-station-button"  data-station="<?=$row['name'];?>" onclick="load('edit_station.php?id=<?=$row['id'];?>')">編輯</button>
+            <button class="btn btn-danger" id="delete-station-button" data-station="<?=$row['name'];?>" onclick="del('station',<?=$row['id'];?>)">刪除</button>
         </td>
     </tr>    
     <?php 
