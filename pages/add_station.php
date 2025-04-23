@@ -12,14 +12,11 @@
 </form>
 <script>
     function save() {
-        let data={
-                name: $("#name").val(),
-                minute: $("#minute").val(),
-                waiting: $("#waiting").val()
-            }
-        $.post("./api/add_station.php",data ,() => {
-                load('admin_station.php');
-                setActive('AdminStation')
+        $.post("./api/add_station.php",{
+                name: $("#station").val(),
+            } ,() => {
+                load('station-link.php');
+                setActive('station-link')
             })
 
     }

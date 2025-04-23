@@ -13,20 +13,20 @@
     <tbody>
     <?php 
     //取出所有站點資料並依照before欄位進行排序
-    //$sql="select * from `station` order by `rank`";
-    //$rows=$pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    $sql="select * from `station`";
+    $rows=q("select * from `station`");
 
-   // foreach($rows as $key => $row){
+    foreach($rows as $key => $row){
     ?>
     <tr data-id="">
-        <td class="station-name"></td>
+        <td class="station-name"><?=$row['name'];?></td>
         <td>
-            <button class="btn btn-warning" id="edit-station-button"  data-station="" onclick="">編輯</button>
-            <button class="btn btn-danger" id="delete-station-button" data-station="" onclick="">刪除</button>
+            <button class="btn btn-warning" id="edit-station-button"  data-station="<?=$row['name'];?>" onclick="">編輯</button>
+            <button class="btn btn-danger" id="delete-station-button" data-station="<?=$row['name'];?>" onclick="">刪除</button>
         </td>
     </tr>    
     <?php 
-   // }
+    }
     ?>    
     </tbody>
     </table>
