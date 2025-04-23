@@ -13,21 +13,21 @@
     </thead>
     <tbody>
     <?php
-        $rows=$pdo->query("SELECT * FROM `bus`")->fetchAll();
+        //$rows=$pdo->query("SELECT * FROM `bus`")->fetchAll();
 
-        foreach($rows as $row){
+       // foreach($rows as $row){
     ?>
-    <tr data-id="<?=$row['id'];?>">
+    <tr data-id="">
         <td class="bus-route"></td>
-        <td class="bus-plate"><?=$row['name'];?></td>
-        <td class="bus-runtime"><?=$row['minute'];?>分鐘</td>
+        <td class="bus-plate"></td>
+        <td class="bus-runtime">分鐘</td>
         <td>
-            <button class="btn btn-warning edit-bus-button" data-bus-plate="<?=$row['name'];?>" onclick="load('edit_bus.php?id=<?=$row['id'];?>')">編輯</button>
-            <button class="btn btn-danger delete-bus-button" data-bus-plate="<?=$row['name'];?>" onclick="del('bus',<?=$row['id'];?>)">刪除</button>
+            <button class="btn btn-warning edit-bus-button" data-bus-plate="" onclick="">編輯</button>
+            <button class="btn btn-danger delete-bus-button" data-bus-plate="" onclick="">刪除</button>
         </td>
     </tr>
     <?php
-    }
+   // }
     ?>
     </tbody>
 </table>

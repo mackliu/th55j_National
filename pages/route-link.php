@@ -12,20 +12,20 @@
     </thead>
     <tbody>
     <?php
-        $rows=$pdo->query("SELECT * FROM `bus`")->fetchAll();
+        //$rows=$pdo->query("SELECT * FROM `bus`")->fetchAll();
 
-        foreach($rows as $row){
+        //foreach($rows as $row){
     ?>
     <tr data-id="<?=$row['id'];?>">
-        <td><?=$row['name'];?></td>
-        <td><?=$row['minute'];?>分鐘</td>
+        <td></td>
+        <td></td>
         <td>
-            <button class="btn btn-warning" onclick="load('edit_bus.php?id=<?=$row['id'];?>')">編輯</button>
-            <button class="btn btn-danger" onclick="del('bus',<?=$row['id'];?>)">刪除</button>
+            <button class="btn btn-warning" onclick="">編輯</button>
+            <button class="btn btn-danger" onclick="">刪除</button>
         </td>
     </tr>
     <?php
-    }
+  //  }
     ?>
     </tbody>
 </table>
