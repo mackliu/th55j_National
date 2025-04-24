@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- 主機： localhost
--- 產生時間： 2025 年 04 月 23 日 12:09
--- 伺服器版本： 10.6.4-MariaDB
--- PHP 版本： 8.3.4
+-- 主機： 127.0.0.1
+-- 產生時間： 2025-04-24 06:55:05
+-- 伺服器版本： 10.4.32-MariaDB
+-- PHP 版本： 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,8 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admin` (
   `id` int(10) UNSIGNED NOT NULL,
-  `acc` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `pw` text COLLATE utf8mb4_unicode_ci NOT NULL
+  `acc` text NOT NULL,
+  `pw` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -49,7 +49,7 @@ INSERT INTO `admin` (`id`, `acc`, `pw`) VALUES
 CREATE TABLE `bus` (
   `id` int(10) UNSIGNED NOT NULL,
   `route_id` int(10) UNSIGNED NOT NULL,
-  `plate` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `plate` text NOT NULL,
   `runtime` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -74,7 +74,7 @@ CREATE TABLE `form_settings` (
 
 CREATE TABLE `route` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` text COLLATE utf8mb4_unicode_ci NOT NULL
+  `name` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -100,8 +100,31 @@ CREATE TABLE `route_station` (
 
 CREATE TABLE `station` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` text COLLATE utf8mb4_unicode_ci NOT NULL
+  `name` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- 傾印資料表的資料 `station`
+--
+
+INSERT INTO `station` (`id`, `name`) VALUES
+(1, '台北車站'),
+(2, '台北醫院'),
+(3, '中正紀念堂'),
+(4, '東門'),
+(5, '大安森林公園'),
+(6, '大安'),
+(7, '信義安和'),
+(8, '台北101'),
+(9, '蘆洲站'),
+(10, '和平路口'),
+(11, '蘆洲監理站(中正路)'),
+(12, '蘆洲國小'),
+(13, '中原公寓'),
+(14, '空中大學'),
+(15, '王爺廟口'),
+(16, '民族路口'),
+(17, '捷運蘆洲站');
 
 -- --------------------------------------------------------
 
@@ -112,9 +135,9 @@ CREATE TABLE `station` (
 CREATE TABLE `survey_response` (
   `id` int(10) NOT NULL,
   `route_id` int(10) UNSIGNED NOT NULL,
-  `name` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `feedback` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` text NOT NULL,
+  `email` text NOT NULL,
+  `feedback` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -202,7 +225,7 @@ ALTER TABLE `route_station`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `station`
 --
 ALTER TABLE `station`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `survey_response`

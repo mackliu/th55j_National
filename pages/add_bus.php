@@ -21,12 +21,14 @@
 
 <script>
 function save(){
-let data={name:$("#name").val(),
-          minute:$("#minute").val()
+let data={ 
+            route:$("#route").val(),
+            plate:$("#plate").val(),
+            runtime:$("#runtime").val()
         }
  $.post("./api/add_bus.php",data,()=>{
-    load('admin_bus.php');
-    setActive('AdminBus')
+    load('bus-link.php');
+    setActive('bus-link')
  })     
 }    
 </script>
