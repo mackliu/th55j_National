@@ -16,6 +16,6 @@ session_start();
  */
 function q($sql){
     global $pdo;
-    return $pdo->query($sql)->fetchAll();
+    return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 }
 ?>
