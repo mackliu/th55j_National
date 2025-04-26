@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2025-04-26 05:36:00
+-- 產生時間： 2025-04-27 01:40:26
 -- 伺服器版本： 10.4.25-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -53,6 +53,17 @@ CREATE TABLE `bus` (
   `runtime` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- 傾印資料表的資料 `bus`
+--
+
+INSERT INTO `bus` (`id`, `route_id`, `plate`, `runtime`) VALUES
+(1, 1, 'A1233', 34),
+(2, 2, 'B3421', 23),
+(3, 3, 'A4521', 31),
+(4, 1, 'A6321', 22),
+(5, 1, 'A2135', 32);
+
 -- --------------------------------------------------------
 
 --
@@ -82,10 +93,8 @@ CREATE TABLE `route` (
 --
 
 INSERT INTO `route` (`id`, `name`) VALUES
-(1, '新蘆快線'),
 (2, '台北普通線'),
-(3, '北區專線'),
-(4, '北和線');
+(3, '北區高速專線');
 
 -- --------------------------------------------------------
 
@@ -107,30 +116,16 @@ CREATE TABLE `route_station` (
 --
 
 INSERT INTO `route_station` (`id`, `route_id`, `station_id`, `seq`, `arriving_time`, `staying_time`) VALUES
-(1, 1, 5, 1, 3, 4),
-(2, 1, 12, 2, 6, 3),
-(3, 1, 4, 3, 5, 2),
-(4, 1, 14, 4, 18, 3),
-(5, 1, 11, 5, 12, 4),
-(6, 1, 17, 6, 9, 2),
 (7, 2, 1, 1, 5, 2),
-(8, 2, 2, 2, 6, 3),
-(9, 2, 3, 3, 9, 3),
-(10, 2, 5, 4, 6, 2),
-(11, 2, 4, 5, 12, 3),
-(12, 2, 7, 6, 9, 3),
-(13, 2, 6, 7, 8, 2),
+(9, 2, 3, 2, 9, 3),
 (14, 3, 2, 1, 4, 2),
-(15, 3, 13, 2, 7, 3),
 (16, 3, 6, 3, 5, 2),
-(17, 3, 16, 4, 8, 2),
 (18, 3, 9, 5, 6, 3),
-(19, 4, 1, 1, 3, 2),
-(20, 4, 2, 2, 4, 2),
-(21, 4, 6, 3, 6, 2),
-(22, 4, 8, 4, 2, 2),
-(23, 4, 9, 5, 3, 2),
-(24, 4, 10, 6, 4, 2);
+(25, 2, 17, 7, 10, 2),
+(27, 2, 15, 6, 1, 1),
+(28, 3, 15, 4, 1, 1),
+(30, 3, 17, 5, 1, 1),
+(31, 3, 16, 6, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -151,9 +146,8 @@ INSERT INTO `station` (`id`, `name`) VALUES
 (1, '台北車站'),
 (2, '台北醫院'),
 (3, '中正紀念堂'),
-(4, '東門'),
 (5, '大安森林公園'),
-(6, '大安'),
+(6, '大安村'),
 (7, '信義安和'),
 (8, '台北101'),
 (9, '蘆洲站'),
@@ -241,7 +235,7 @@ ALTER TABLE `admin`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `bus`
 --
 ALTER TABLE `bus`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `form_settings`
@@ -259,7 +253,7 @@ ALTER TABLE `route`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `route_station`
 --
 ALTER TABLE `route_station`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id', AUTO_INCREMENT=25;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id', AUTO_INCREMENT=32;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `station`
