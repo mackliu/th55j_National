@@ -27,11 +27,33 @@ $.get("./api/get_bus_list.php", (data) => {
             <td class="bus-runtime">${bus.runtime}分鐘</td>
             <td>
                 <button class="btn btn-warning edit-bus-button" data-bus-plate="${bus.plate}">編輯</button>
-                <button class="btn btn-danger delete-bus-button" data-bus-plate="${bus.plate}">刪除</button>
+                <button class="btn btn-danger delete-bus-button" data-bus-plate="${bus.plate}" data-id="${bus.id}">刪除</button>
             </td>
         </tr>
     `)
     });
+
+    //綁定編輯和刪除按鈕的事件
+    $(".edit-bus-button").on("click", function () {
+        let busPlate = $(this).data("bus-plate");
+        load('edit_bus.php?plate=' + busPlate);
+        setActive('bus-link')
+    })
+
+    $(".delete-bus-button").on("click", function () {
+        let busPlate = $(this).data("bus-plate")
+        if (confirm(`確定要刪除${busPlate}嗎?`)) {
+            $.post("./api/del.php", {
+                plate: busPlate,
+                table: 'bus',
+                id:$(this).data('id')
+            }, (res) => {
+                //console.log(res)
+                load('bus-link.php')
+                setActive('bus-link')
+            })
+        }
+    })
 })
 </script>
 

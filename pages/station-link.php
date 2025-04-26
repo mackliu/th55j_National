@@ -11,23 +11,47 @@
     </tr>
         </thead>    
     <tbody>
-    <?php 
-    //取出所有站點資料並依照before欄位進行排序
-    $sql="select * from `station`";
-    $rows=q("select * from `station`");
-
-    foreach($rows as $key => $row){
-    ?>
-    <tr data-id="">
-        <td class="station-name"><?=$row['name'];?></td>
-        <td>
-            <button class="btn btn-warning" id="edit-station-button"  data-station="<?=$row['name'];?>" onclick="">編輯</button>
-            <button class="btn btn-danger" id="delete-station-button" data-station="<?=$row['name'];?>" onclick="">刪除</button>
-        </td>
-    </tr>    
-    <?php 
-    }
-    ?>    
+      
     </tbody>
     </table>
 </div>
+<script>
+$.get("./api/get_stations.php",(stations)=>{
+    $("#station tbody").empty()
+    stations.forEach(station => {
+        $("#station tbody").append(`
+            <tr>
+                <td>${station.name}</td>
+                <td>
+                    <button class="btn btn-warning edit-station-button" data-station="${station.name}">編輯</button>
+                    <button class="btn btn-danger delete-station-button" data-station="${station.name}" data-id="${station.id}">刪除</button>
+                </td>
+            </tr>
+        `)
+    })
+    
+//綁定編輯和刪除按鈕的事件
+$(".edit-station-button").on("click",function(){
+        let stationName=$(this).data("station");
+        load('edit_station.php?name='+stationName);
+        setActive('station-link')
+    })
+
+ $(".delete-station-button").on("click",function(){
+    let stationName=$(this).data("station")
+    if(confirm(`確定要刪除${stationName}嗎?`)){
+        $.post("./api/del.php",{
+            name:stationName,
+            id:$(this).data('id'),
+            table:'station'
+        },(res)=>{
+            //console.log(res)
+            load('station-link.php')
+            setActive('station-link')
+        })
+    }
+ })
+})
+
+
+</script>
