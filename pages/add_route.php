@@ -47,8 +47,6 @@
                 selectedStations:selectedStations
             } ,(res) => {
                 //console.log(res)
-                delete stations
-                delete selectedStations
                 load('route-link.php');
                 setActive('route-link')
             })

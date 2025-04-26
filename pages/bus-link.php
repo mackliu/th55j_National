@@ -2,7 +2,7 @@
 <div class="list">
 <h1 class="text-center my-3 border">車輛管理</h1>
 <button class="btn btn-success" id="add-bus-button" onclick="load('add_bus.php')">新增</button>
-<table class='table table-bordered text-center w-100' id='bus'>
+<table class='table table-bordered text-center w-100' id='bus-list'>
     <thead>
     <tr>
         <td>路線</td>
@@ -12,23 +12,26 @@
     </tr>
     </thead>
     <tbody>
-    <?php
-        $rows=q("SELECT * FROM `bus`");
-
-        foreach($rows as $row){
-    ?>
-    <tr data-id="">
-        <td class="bus-route"><?=$row['route_id'];?></td>
-        <td class="bus-plate"><?=$row['plate'];?></td>
-        <td class="bus-runtime"><?=$row['runtime'];?>分鐘</td>
-        <td>
-            <button class="btn btn-warning edit-bus-button" data-bus-plate="<?=$row['plate'];?>" onclick="">編輯</button>
-            <button class="btn btn-danger delete-bus-button" data-bus-plate="<?=$row['plate'];?>" onclick="">刪除</button>
-        </td>
-    </tr>
-    <?php
-    }
-    ?>
     </tbody>
 </table>
 </div>
+<script>
+$.get("./api/get_bus_list.php", (data) => {
+    console.log(data);
+    //使用迴圈將路線資料加入到下拉選單(#route)中
+    data.forEach(bus => {
+        $("#bus-list tbody").append(`
+        <tr>
+            <td class="bus-route">${bus.route_name}</td>
+            <td class="bus-plate">${bus.plate}</td>
+            <td class="bus-runtime">${bus.runtime}分鐘</td>
+            <td>
+                <button class="btn btn-warning edit-bus-button" data-bus-plate="${bus.plate}">編輯</button>
+                <button class="btn btn-danger delete-bus-button" data-bus-plate="${bus.plate}">刪除</button>
+            </td>
+        </tr>
+    `)
+    });
+})
+</script>
+
