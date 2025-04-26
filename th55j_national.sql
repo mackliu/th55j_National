@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2025-04-24 06:55:05
--- 伺服器版本： 10.4.32-MariaDB
+-- 產生時間： 2025-04-26 05:36:00
+-- 伺服器版本： 10.4.25-MariaDB
 -- PHP 版本： 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -29,8 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admin` (
   `id` int(10) UNSIGNED NOT NULL,
-  `acc` text NOT NULL,
-  `pw` text NOT NULL
+  `acc` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pw` text COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -49,7 +49,7 @@ INSERT INTO `admin` (`id`, `acc`, `pw`) VALUES
 CREATE TABLE `bus` (
   `id` int(10) UNSIGNED NOT NULL,
   `route_id` int(10) UNSIGNED NOT NULL,
-  `plate` text NOT NULL,
+  `plate` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `runtime` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -74,8 +74,18 @@ CREATE TABLE `form_settings` (
 
 CREATE TABLE `route` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` text NOT NULL
+  `name` text COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- 傾印資料表的資料 `route`
+--
+
+INSERT INTO `route` (`id`, `name`) VALUES
+(1, '新蘆快線'),
+(2, '台北普通線'),
+(3, '北區專線'),
+(4, '北和線');
 
 -- --------------------------------------------------------
 
@@ -92,6 +102,36 @@ CREATE TABLE `route_station` (
   `staying_time` int(10) NOT NULL COMMENT '停留時間'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- 傾印資料表的資料 `route_station`
+--
+
+INSERT INTO `route_station` (`id`, `route_id`, `station_id`, `seq`, `arriving_time`, `staying_time`) VALUES
+(1, 1, 5, 1, 3, 4),
+(2, 1, 12, 2, 6, 3),
+(3, 1, 4, 3, 5, 2),
+(4, 1, 14, 4, 18, 3),
+(5, 1, 11, 5, 12, 4),
+(6, 1, 17, 6, 9, 2),
+(7, 2, 1, 1, 5, 2),
+(8, 2, 2, 2, 6, 3),
+(9, 2, 3, 3, 9, 3),
+(10, 2, 5, 4, 6, 2),
+(11, 2, 4, 5, 12, 3),
+(12, 2, 7, 6, 9, 3),
+(13, 2, 6, 7, 8, 2),
+(14, 3, 2, 1, 4, 2),
+(15, 3, 13, 2, 7, 3),
+(16, 3, 6, 3, 5, 2),
+(17, 3, 16, 4, 8, 2),
+(18, 3, 9, 5, 6, 3),
+(19, 4, 1, 1, 3, 2),
+(20, 4, 2, 2, 4, 2),
+(21, 4, 6, 3, 6, 2),
+(22, 4, 8, 4, 2, 2),
+(23, 4, 9, 5, 3, 2),
+(24, 4, 10, 6, 4, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -100,7 +140,7 @@ CREATE TABLE `route_station` (
 
 CREATE TABLE `station` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` text NOT NULL
+  `name` text COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -135,9 +175,9 @@ INSERT INTO `station` (`id`, `name`) VALUES
 CREATE TABLE `survey_response` (
   `id` int(10) NOT NULL,
   `route_id` int(10) UNSIGNED NOT NULL,
-  `name` text NOT NULL,
-  `email` text NOT NULL,
-  `feedback` text NOT NULL,
+  `name` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `feedback` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -213,13 +253,13 @@ ALTER TABLE `form_settings`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `route`
 --
 ALTER TABLE `route`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `route_station`
 --
 ALTER TABLE `route_station`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id';
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id', AUTO_INCREMENT=25;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `station`
