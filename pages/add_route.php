@@ -1,9 +1,9 @@
 <h1 class="border p-3 my-3 text-center">新增路線</h1>
-<form>
+
 
     <div class="row w-100">
         <label for="" class="col-2">路線名稱</label>
-        <input type="text" name="station" id="station" class='form-group form-control col-10'>
+        <input type="text" name="route" id="route" class='form-group form-control col-10'>
         <div class="row w-100">
             <div class="col-6">
                 <div class="text-center">選擇站點</div>
@@ -11,7 +11,7 @@
             </div>
             <div class="col-6">
                 <div class="text-center">編輯站點</div>
-                <div id="selected-stations" class="list-group">
+                <div class="list-group">
                     <div class="d-flex justify-content-between align-items-center list-group-item" data-id="${stationId}">
                         <div class="d-flex col-10">
                             <div class="col-6 px-1">站點名稱</div>
@@ -21,28 +21,150 @@
                         <div class="col-1">&nbsp</div>
                     </div>
                 </div>
+                <div id="selected-stations" class="list-group">
+
+                </div>
+
             </div>
         </div>
     </div>
     <div class="row w-100">
-        <input type="button" id="add-button" value="新增" class='col-12 btn btn-success my-1' onclick='save()'>
-        <input type="button" id="back-button" value="回上頁" class='col-12 btn btn-secondary my-1' onclick="load('admin_station.php');setActive('AdminStation')">
+        <input type="button" id="add-button" value="新增" class='col-12 btn btn-success my-1'>
+        <input type="button" id="back-button" value="回上頁" class='col-12 btn btn-secondary my-1'>
     </div>
-</form>
-<script>
-    function save() {
-        $.post("./api/add_station.php",{
-                name: $("#station").val(),
-            } ,() => {
-                load('station-link.php');
-                setActive('station-link')
-            })
 
-    }
+<script>
+    //將整段程式包在jquery的ready事件中，確保DOM元素已經載入完成
+    //同時解決stations 及 selectedStations變數的作用域問題
+    $(function(){
+        let stations=[];
+        let selectedStations=[];
+
+    //當按下新增路線按鈕時，將路線名稱及選擇的站點資料傳送到api/add_route.php
+    $("#add-button").on("click",function(){
+        $.post("./api/add_route.php",{
+                name: $("#route").val(),
+                selectedStations:selectedStations
+            } ,(res) => {
+                //console.log(res)
+                delete stations
+                delete selectedStations
+                load('route-link.php');
+                setActive('route-link')
+            })
+    })
+
+    //回上頁按鈕
+    $("#back-button").on("click",function(){
+        load('route-link.php');
+        setActive('route-link')
+    })
 
     $.get("./api/get_stations.php", (data) => {
+        stations.length=0;   //先清空陣列
+
+        //將ajax取得的資料放入全域變數stations中
+        data.forEach(station => {
+            stations.push(station);
+        });
+
+        //列出站點
+        listStations(stations);
+                //將要加入路線的站點資料加入到selectedStations陣列中，並在編輯區域顯示
+                $("#station-list").on("click",".btn-primary",function(){
+            //取得站點資料
+            let stationName=$(this).data("station-name")
+            let stationId=$(this).data("station-id")
+            let seq=selectedStations.length+1
+           //站點資料加入到selectedStations陣列中
+            selectedStations.push({
+                station_id: stationId,
+                station_name: stationName,
+                arriving_time: 1,
+                staying_time: 1,
+                seq: seq
+            })
+            //在stations陣列中移除已選擇的站點
+            stations=stations.filter(station=>station.id!=stationId)
+
+            //移除站點
+            $(this).parent().parent().remove()
+
+            //將選擇的站點資料顯示在編輯區域
+            listSelectedStations(selectedStations)
+            console.log(stations,selectedStations)
+        })
+
+        $("#selected-stations")
+            .on("click",".move-up",function(){ //綁定上移事件
+                let seq=$(this).parents(".selected-item").data("seq")
+                let prevItem=$(this).parents(".selected-item").prev()
+                if(prevItem.length>0){
+                    $(this).parents(".selected-item").insertBefore(prevItem)
+                    $(this).parents(".selected-item").data("seq",seq-1)
+                    $(prevItem).data("seq",seq)
+                    //更新selelctedStations陣列中的seq值
+                    //取得目前站點的在selectedStations中的index值
+                    let index=selectedStations.findIndex(station=>station.station_id==$(this).parents(".selected-item").data("id"))
+                    selectedStations[index].seq=seq-1
+
+                    //取得上移的站點在selectedStations中的index值
+                    index=selectedStations.findIndex(station=>station.station_id==$(prevItem).data("id"))
+                    selectedStations[index].seq=seq
+                }
+                console.log(selectedStations)
+        })
+        .on("click",".move-down",function(){  //綁定下移事件
+            let seq=$(this).parents(".selected-item").data("seq")
+                let nextItem=$(this).parents(".selected-item").next()
+                if(nextItem.length>0){
+                    $(this).parents(".selected-item").insertAfter(nextItem)
+                    $(this).parents(".selected-item").data("seq",seq+1)
+                    $(nextItem).data("seq",seq)
+                    //更新selelctedStations陣列中的seq值
+                    //取得目前站點的在selectedStations中的index值
+                    let index=selectedStations.findIndex(station=>station.station_id==$(this).parents(".selected-item").data("id"))
+                    selectedStations[index].seq=seq+1
+                    //取得下移的站點在selectedStations中的index值
+                    index=selectedStations.findIndex(station=>station.station_id==$(nextItem).data("id"))
+                    selectedStations[index].seq=seq
+                }
+                console.log(selectedStations)
+        })
+        .on("click",".btn-danger",function(){  //綁定刪除事件
+            let id=$(this).parents(".selected-item").data("id")
+            let name=$(this).parent().find(".col-6").text()
+            let index=selectedStations.findIndex(station=>station.station_id==id)
+            //將刪除的站點資料從selectedStations陣列中移除
+            selectedStations.splice(index,1)
+            //重新列表選擇的站點資料
+            listSelectedStations(selectedStations)
+            
+            //將刪除的站點重新加入到stations陣列中
+            stations.push({
+                id: id,
+                name: name
+            })
+            //更新選擇的站點資料顯示
+            listStations(stations)
+        })
+        .on("change","input",function(){  //綁定輸入框變更事件
+            let id=$(this).parents(".selected-item").data("id")
+            let name=$(this).parents(".selected-item").data("name")
+            let index=selectedStations.findIndex(station=>station.station_id==id)
+
+            //將輸入框(行駛時間及停留時間)的值存入selectedStations陣列中
+            selectedStations[index][$(this).attr("name")]=$(this).val()
+        })
+    });
+
+
+    function listStations(stations){
+        //先清空站點選擇區域的內容
+        $("#station-list").empty()
+
         //取得所有站點資料並在站點選擇區域顯示
-        data.forEach(station=>{
+        stations.forEach(station=>{
             $("#station-list").append(`
             <div class="col-4 p-1 ">
                 <div class="d-flex justify-content-between align-items-center btn btn-info">
@@ -52,53 +174,33 @@
             </div>
             `)
         })
+    }
 
-        //為每個站點按鈕綁定點擊事件，將選擇的站點加入到編輯區域
-        $("#station-list .btn-primary").click(function(){
-            let stationName=$(this).data("station-name")
-            let stationId=$(this).data("station-id")
-            let rank=$(".selected-item").length+1
+    function listSelectedStations(selectedStations){
+        //先清空編輯區域的內容
+        $("#selected-stations").empty()
 
+        //列表顯示前先將selectedStations陣列中的資料依seq 由小到大排序
+        selectedStations.sort((a,b)=>a.seq-b.seq)
+
+        //將選擇的站點資料顯示在編輯區域
+        selectedStations.forEach(station=>{
             $("#selected-stations").append(`
-                <div class="selected-item d-flex justify-content-between align-items-center list-group-item" data-id="${stationId}">
+                <div class="selected-item d-flex justify-content-between align-items-center list-group-item" data-id="${station.station_id}" data-name="${station.station_name}" data-seq="${station.seq}">
                     <div class="d-flex col-10 align-items-center">
-                        <div class="col-6 px-1">${stationName}</div>
-                        <input type="number" class="col-3 p-1 form-control border-bottom" placeholder="行駛時間" min="0" value="0">
-                        <input type="number" class="col-3 p-1 form-control border-bottom" placeholder="停留時間" min="0" value="0">
+                        <div class="col-6 px-1">${station.station_name}</div>
+                        <input type="number" class="col-3 p-1 form-control" name="arriving_time" min="0" value="${station.arriving_time}">
+                        <input type="number" class="col-3 p-1 form-control" name="staying_time" min="0" value="${station.staying_time}">
                     </div>
                     <div class="col-1 d-flex flex-column">
-                        <div data-rank="${rank}" class="move-up" style="cursor:pointer;">&#x2BC5;</div>
-                        <div data-rank="${rank}" class="move-down" style="cursor:pointer;">&#x2BC6;</div>
+                        <div  class="move-up" style="cursor:pointer;">&#x2BC5;</div>
+                        <div  class="move-down" style="cursor:pointer;">&#x2BC6;</div>
                     </div>
-                    <button class="btn btn-danger col-1 btn-sm">-</button> 
+                    <button class="btn btn-danger col-1 btn-sm">-</button>
                 </div>
             `)
-            $(this).parent().parent().remove()
-            //為新增的站點按鈕綁定刪除事件，並將站點加回到選擇區域
-            $("#selected-stations .btn-danger").click(function(){
-                $(this).parent().remove()
-                
-            })
-            //為新增的站點按鈕綁定上移事件
-            $(".selected-item .move-up").click(function(){
-                let rank=$(this).data("rank")
-                let prevItem=$(this).parent().parent().prev()
-                if(prevItem.length>0){
-                    $(this).parent().parent().insertBefore(prevItem)
-                    $(this).data("rank",rank-1)
-                    prevItem.find(".move-up").data("rank",rank)
-                }
-            })
-            //為新增的站點按鈕綁定下移事件
-            $(".selected-item .move-down").click(function(){
-                let rank=$(this).data("rank")
-                let nextItem=$(this).parent().parent().next()
-                if(nextItem.length>0){
-                    $(this).parent().parent().insertAfter(nextItem)
-                    $(this).data("rank",rank+1)
-                    nextItem.find(".move-down").data("rank",rank)
-                }
-            })
         })
-    });
+    }
+    })
+    
 </script>
