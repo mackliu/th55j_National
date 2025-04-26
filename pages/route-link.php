@@ -25,10 +25,31 @@ $.get("./api/get_routes.php", (routes) => {
                 <td>${route.station_count}</td>
                 <td>
                     <button class="btn btn-warning edit-route-button" data-route="${route.name}">編輯</button>
-                    <button class="btn btn-danger delete-route-button" data-route="${route.name}">刪除</button>
+                    <button class="btn btn-danger delete-route-button" data-route="${route.name}"  data-id="${route.id}">刪除</button>
                 </td>
             </tr>
         `)
+    })
+
+    //綁定編輯和刪除按鈕的事件
+    $(".edit-route-button").on("click", function () {
+        let routeName = $(this).data("route")
+        load('edit_route.php?name=' + routeName)
+        setActive('route-link')
+    })
+
+    $(".delete-route-button").on("click", function () {
+        let routeName = $(this).data("route")
+        if (confirm(`確定要刪除${routeName}路線嗎?`)) {
+            $.post("./api/del.php", {
+                table: 'route',
+                id:$(this).data('id')
+            }, (res) => {
+                //console.log(res)
+                load('route-link.php')
+                setActive('route-link')
+            })
+        }
     })
 })
 

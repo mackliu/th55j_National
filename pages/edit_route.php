@@ -1,10 +1,13 @@
-<h1 class="border p-3 my-3 text-center">新增路線</h1>
-
-
-    <div class="row w-100">
-        <label for="" class="col-2">路線名稱</label>
-        <input type="text" name="route" id="route" class='form-group form-control col-10'>
-        <div class="row w-100">
+<?php include_once "../api/db.php"; 
+$route=q("SELECT * FROM `route` WHERE `name`='{$_GET['name']}'")[0];
+?>
+<h1 class="border p-3 my-3 text-center">修改「<span id='title'><?=$route['name'];?></span>」路線</h1>
+<div class="row w-100">
+    <label for="" class="col-2">路線名稱</label>   
+    <input  type="text" name="route" id="route" value="<?=$route['name'];?>" class='form-group form-control col-10'
+             required>
+</div>
+<div class="row w-100">
             <div class="col-6">
                 <div class="text-center">選擇站點</div>
                 <div id="station-list" class="d-flex flex-wrap align-items-center"></div>
@@ -27,30 +30,31 @@
 
             </div>
         </div>
-    </div>
-    <div class="row w-100">
-        <input type="button" id="add-button" value="新增" class='col-12 btn btn-success my-1'>
-        <input type="button" id="back-button" value="回上頁" class='col-12 btn btn-secondary my-1'>
-    </div>
 
+<div class="row w-100">
+    <input  type="button" id="edit-button" data-id="<?=$route['id'];?>" value="修改" class='col-12 btn btn-success my-1'>
+    <input  type="button" id="back-button" value="回上頁" class='col-12 btn btn-secondary my-1'>
+</div>
 <script>
     //將整段程式包在jquery的ready事件中，確保DOM元素已經載入完成
     //同時解決stations 及 selectedStations變數的作用域問題
     $(function(){
+        //定義全域變數stations及selectedStations
         let stations=[];
         let selectedStations=[];
 
-    //當按下新增路線按鈕時，將路線名稱及選擇的站點資料傳送到api/add_route.php
-    $("#add-button").on("click",function(){
-        $.post("./api/add_route.php",{
+    //當按下修改路線按鈕時，將路線名稱及選擇的站點資料傳送到api/edit_route.php
+    $("#edit-button").on("click",function(){
+    $.post("./api/edit_route.php",{
                 name: $("#route").val(),
+                id:$(this).data('id'),
                 stations:selectedStations
             } ,(res) => {
-                //console.log(res)
-                load('route-link.php');
-                setActive('route-link')
-            })
-    })
+            console.log(res)
+            load('route-link.php');
+            setActive('route-link')
+        })
+})
 
     //回上頁按鈕
     $("#back-button").on("click",function(){
@@ -58,7 +62,23 @@
         setActive('route-link')
     })
 
-    $.get("./api/get_stations.php", (data) => {
+    //取得所有該路線站點資料並在編輯站點區域顯示
+    $.get("./api/get_route_stations.php",{id:<?=$route['id'];?>}, (data) => {
+        //console.log(data)
+        selectedStations.length=0;   //先清空陣列
+
+        //將ajax取得的資料放入全域變數selectedStations中
+        data.forEach(station => {
+            selectedStations.push(station);
+        });
+        //console.log(selectedStations)
+        //列出站點
+        listSelectedStations(selectedStations);
+    });
+
+    //取得所有未被選取的站點資料並在站點選擇區域顯示
+    $.get("./api/get_stations.php",{id:<?=$route['id'];?>}, (data) => {
+        //console.log(data)
         stations.length=0;   //先清空陣列
 
         //將ajax取得的資料放入全域變數stations中
@@ -127,7 +147,7 @@
                     index=selectedStations.findIndex(station=>station.station_id==$(nextItem).data("id"))
                     selectedStations[index].seq=seq
                 }
-                //console.log(selectedStations)
+               // console.log(selectedStations)
         })
         .on("click",".btn-danger",function(){  //綁定刪除事件
             let id=$(this).parents(".selected-item").data("id")
@@ -200,5 +220,5 @@
         })
     }
     })
-    
+
 </script>
