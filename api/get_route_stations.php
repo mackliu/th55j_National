@@ -11,7 +11,10 @@ $route_stations=q("SELECT `route_station`.* ,`station`.`name` as 'station_name'
 //逐一取出站點資料進行時間計算
 foreach($route_stations as $idx => $station){
     //先計算到前一站為止所需的行駛總時間，使用seq來判斷前面的站點
-    $prev=q("select sum(`arriving_time`+`staying_time`) as 'prev_time' from `route_station` where `route_id`='{$_GET['id']}' && `seq` < {$station['seq']}")[0]['prev_time'];
+    $prev=q("SELECT sum(`arriving_time`+`staying_time`) as 'prev_time' 
+                FROM `route_station` 
+                WHERE `route_id`='{$_GET['id']}' && `seq` < {$station['seq']} 
+                ORDER BY `route_station`.`seq` asc")[0]['prev_time'];
 
     //計算到達此站的時間
     $arrive=$prev+$station['arriving_time'];

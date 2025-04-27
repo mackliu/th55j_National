@@ -209,7 +209,7 @@ function getStations(id){
                         ${station.closest_bus}<br>
                         ${station.remaining_time}
                      </div>
-                     <div class='station-point' data-id="${station.id}"></div>
+                     <div class='station-point' data-id="${station.station_id}"></div>
                      <div class='station-name'>${station.station_name}</div>
                    </div>`
             
@@ -241,8 +241,9 @@ function getStations(id){
 
                 //取得站點id
                 let stationId=$(this).data('id')
+                let routeId=$("#route-select").val() //取得路線ID
                 let busInfo=''  //建立一個變數來儲存公車資訊
-                $.get("./api/get_bus.php",{stationId},(busList)=>{
+                $.get("./api/get_bus.php",{stationId,routeId},(busList)=>{
 
                     if(busList!='-1'){ //如果有公車資訊，則將資訊加入到busInfo變數中
                         $(this).after(`<div class='bus-list'>${busList}</div>`)
