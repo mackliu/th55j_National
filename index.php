@@ -117,6 +117,18 @@
 <?php include "header.php";?>
 <div class="container mt-5">
 
+<!--路線選擇區塊-->
+<div class="d-flex flex-wrap my-4 mx-auto shadow p-5 justify-content-center" style='width:min-content'>
+    <div class="d-flex flex-column">
+        <div class="d-flex flex-column">
+            <label for="route-select">請選擇路線</label>
+            <select name="route-select" id="route-select" class="form-control">
+                
+            </select>
+        </div>
+    </div>
+
+
 <!--路網圖區塊-->
 <div class="d-flex flex-wrap my-4 mx-auto shadow p-5" style='width:min-content' id="route-map">
 
@@ -129,16 +141,39 @@
 //設定每一列的站點數量
 let PointsPerRow=3;
 
-//畫面載入時執行getStations來取得所有站點資料
-getStations()
 
+getRoutes()
+
+/**
+ * 取得所有路線的資料
+ */
+function getRoutes(){
+    //使用ajax來取得所有路線資料
+    $.get("./api/get_routes.php",(routes)=>{
+        //將路線資料加入到id為route-select的select元素中
+        routes.forEach(route => {
+            $("#route-select").append(`
+                <option value="${route.id}">${route.name}</option>
+            `)
+        })
+
+        //取出第一個路線的資料，並繪製路網圖
+        getStations($("#route-select").val()) //取得選擇的路線資料
+
+    })
+}
+//當路線選擇改變時，重新取得該路線的所有站點資料，並繪製路網圖
+$("#route-select").on("change",function(){
+    getStations($(this).val())
+})
 
 /**
  * 取得所有站點的資料
+ * @param {int} id 路線ID
  */
-function getStations(){
+function getStations(id){
     //使用ajax來取得所有站點資料
-    $.get("./api/get_stations.php",(stations)=>{
+    $.get("./api/get_route_stations.php",{id},(stations)=>{
         console.log(stations)
         //建立一個變數來計算目前列數
         let row=0;
@@ -172,10 +207,10 @@ function getStations(){
             map+=`<div class='station'>
                      <div class='station-status ${station.status}'>
                         ${station.closest_bus}<br>
-                        ${station.time}
+                        ${station.remaining_time}
                      </div>
                      <div class='station-point' data-id="${station.id}"></div>
-                     <div class='station-name'>${station.name}</div>
+                     <div class='station-name'>${station.station_name}</div>
                    </div>`
             
             //如果是每一列的最後一個站點，則加入</div>來結束這一列
@@ -198,7 +233,6 @@ function getStations(){
     </svg>
         `)
         drawPath() //呼叫畫路徑的函式來畫出路徑
-
 
         //在路網圖載入完成後，對路網圖中的站點進行hover事件的設定
         $(".station-point").hover(
