@@ -1,6 +1,5 @@
 <h1 class="border p-3 my-3 text-center">新增路線</h1>
 
-
     <div class="row w-100">
         <label for="" class="col-2">路線名稱</label>
         <input type="text" name="route" id="route" class='form-group form-control col-10'>
@@ -24,7 +23,6 @@
                 <div id="selected-stations" class="list-group">
 
                 </div>
-
             </div>
         </div>
     </div>
@@ -68,12 +66,21 @@
 
         //列出站點
         listStations(stations);
-                //將要加入路線的站點資料加入到selectedStations陣列中，並在編輯區域顯示
-                $("#station-list").on("click",".btn-primary",function(){
+        //將要加入路線的站點資料加入到selectedStations陣列中，並在編輯區域顯示
+        $("#station-list").on("click",".btn-primary",function(){
             //取得站點資料
             let stationName=$(this).data("station-name")
             let stationId=$(this).data("station-id")
-            let seq=selectedStations.length+1
+
+            //找出selectedStations中最大的seq值+1來做為新站點的seq值
+            //如果selectedStations中還沒有資料，則seq=1
+            let seq=0;
+            if(selectedStations.length==0){
+                seq=1
+            }else{
+                seq=Math.max(...selectedStations.map(station=>station.seq))+1
+            }
+
            //站點資料加入到selectedStations陣列中
             selectedStations.push({
                 station_id: stationId,
