@@ -2,7 +2,7 @@
 include_once "db.php";
 
 //建立編輯路線資料用的SQL語法
-q("UPDATE `route` SET `name`='{$_POST['name']}' WHERE `id`='{$_POST['id']}'");
+q("UPDATE `route` SET `name`='{$_POST['routeName']}' WHERE `id`='{$_POST['id']}'");
 
 //$_POST['stations']中的資料分為兩種，一種是新增的資料，一種是更新的資料(有id的資料)
 //先將$_POST['stations']中的資料依seq 由小到大排序
@@ -11,10 +11,16 @@ usort($_POST['stations'], function($a, $b) {
 });
 
 
-//取得該路線的所有站點資料
-$route_stations=q("SELECT `id`,`station_id` FROM `route_station` WHERE `route_id`='{$_POST['id']}'");
+//刪除該路線的所有站點資料
+$route_stations=q("delete from `route_station` WHERE `route_id`='{$_POST['id']}'");
 
 
+
+foreach($_POST['stations'] as $station){
+    q("insert into `route_station` (`route_id`, `station_id`, `arriving_time`, `staying_time`, `seq`) 
+        values ('{$_POST['id']}', '{$station['stationId']}', '{$station['arrivingTime']}', '{$station['stayingTime']}', '{$station['seq']}')");
+}
+/* 
 
 foreach($_POST['stations'] as $station){
 
@@ -43,4 +49,4 @@ if(count($route_stations)>0){
     }
 }
 
-
+ */
