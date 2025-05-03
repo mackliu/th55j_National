@@ -29,6 +29,8 @@
     $("#add-button").on("click",function(){
         $(".station-chk:checked").each(function(){
             
+            selectedStations.length=0;
+
             let station={
                 stationId:$(this).data('station-id'),
                 stationName:$(this).data('station-name'),
@@ -41,15 +43,19 @@
         })
 
         //console.log(selectedStations);
+        if($("#route").val()!=""  && selectedStations.length>1){
 
-        $.post("./api/add_route.php",{
-                routeName: $("#route").val(),
-                stations:selectedStations
-            } ,(res) => {
-                //console.log(res)
-                load('route-link.php');
-                setActive('route-link')
-            })
+            $.post("./api/add_route.php",{
+                    routeName: $("#route").val(),
+                    stations:selectedStations
+                } ,(res) => {
+                    //console.log(res)
+                    load('route-link.php');
+                    setActive('route-link')
+                })
+        }else{
+            alert("請輸入路線名稱並確認至少選擇兩個站點")
+        }
     })
 
     //回上頁按鈕
@@ -112,31 +118,7 @@
 
     }
 
-   /*  function listSelectedStations(selectedStations){
-        //先清空編輯區域的內容
-        $("#selected-stations").empty()
 
-        //列表顯示前先將selectedStations陣列中的資料依seq 由小到大排序
-        selectedStations.sort((a,b)=>a.seq-b.seq)
-
-        //將選擇的站點資料顯示在編輯區域
-        selectedStations.forEach(station=>{
-            $("#selected-stations").append(`
-                <div class="selected-item d-flex justify-content-between align-items-center list-group-item" data-id="${station.station_id}" data-name="${station.station_name}" data-seq="${station.seq}">
-                    <div class="d-flex col-10 align-items-center">
-                        <div class="col-6 px-1">${station.station_name}</div>
-                        <input type="number" class="col-3 p-1 form-control" name="arriving_time" min="0" value="${station.arriving_time}">
-                        <input type="number" class="col-3 p-1 form-control" name="staying_time" min="0" value="${station.staying_time}">
-                    </div>
-                    <div class="col-1 d-flex flex-column">
-                        <div  class="move-up" style="cursor:pointer;">&#x2BC5;</div>
-                        <div  class="move-down" style="cursor:pointer;">&#x2BC6;</div>
-                    </div>
-                    <button class="btn btn-danger col-1 btn-sm">-</button>
-                </div>
-            `)
-        })
-    } */
     })
     
 </script>
