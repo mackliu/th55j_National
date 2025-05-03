@@ -94,13 +94,20 @@
         })
 
         $(".station-chk").on("click",function(){
-            $(this).parent().append(
-                `
-                <input type='number' class='arriving-time form-control mx-1 col-3' placeholder="行駛時間" name='arriving_time'  value=''>
-                <input type='number' class='staying-time form-control mx-1 col-3' placeholder="停留時間" name='staying_time'  value=''>
-                <input type='number' class='seq form-control mx-1 col-3' placeholder='順序' name='seq'  value=''>
-                `
-            )
+            if($(this).prop('checked')){
+
+                $(this).parent().append(
+                    `
+                    <input type='number' class='arriving-time form-control mx-1 col-3' placeholder="行駛時間" name='arriving_time'  value=''>
+                    <input type='number' class='staying-time form-control mx-1 col-3' placeholder="停留時間" name='staying_time'  value=''>
+                    <input type='number' class='seq form-control mx-1 col-3' placeholder='順序' name='seq'  value=''>
+                    `
+                )
+            }else{
+                $(this).siblings('.arriving-time').remove()
+                $(this).siblings('.staying-time').remove()
+                $(this).siblings('.seq').remove()
+            }
         })
 
     }
