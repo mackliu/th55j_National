@@ -1,4 +1,3 @@
-
 <div class="list">
 <h1 class="text-center my-3 border">車輛管理</h1>
 <button class="btn btn-success" id="add-bus-button" onclick="load('add_bus.php')">新增</button>
@@ -16,10 +15,7 @@
 </table>
 </div>
 <script>
-
-
 $.get("./api/get_bus_list.php", (data) => {
-    console.log(data);
     //使用迴圈將路線資料加入到下拉選單(#route)中
     data.forEach(bus => {
         $("#bus-list tbody").append(`
@@ -38,8 +34,7 @@ $.get("./api/get_bus_list.php", (data) => {
     //綁定編輯和刪除按鈕的事件
     $(".edit-bus-button").on("click", function () {
         let busPlate = $(this).data("bus-plate");
-        load('edit_bus.php?plate=' + busPlate);
-        setActive('bus-link')
+        location.href = '?page=edit_bus&plate=' + busPlate;
     })
 
     $(".delete-bus-button").on("click", function () {
@@ -51,8 +46,7 @@ $.get("./api/get_bus_list.php", (data) => {
                 id:$(this).data('id')
             }, (res) => {
                 //console.log(res)
-                load('bus-link.php')
-                setActive('bus-link')
+                location.href = '?page=bus-link'
             })
         }
     })

@@ -8,8 +8,8 @@ $station=q("SELECT * FROM `station` WHERE `name`='{$_GET['name']}'")[0];
              required>
 </div>
 <div class="row w-100">
-    <input  type="button" id="edit-button" data-id="<?=$station['id'];?>" value="修改" class='col-12 btn btn-success my-1'>
-    <input  type="button" id="back-button" value="回上頁" class='col-12 btn btn-secondary my-1'>
+    <button id="edit-button" class='col-12 btn btn-success my-1' data-id="<?=$station['id'];?>">修改</button>
+    <button id="back-button" class='col-12 btn btn-secondary my-1'>回上頁</button>
 </div>
 <script>
 //當按下修改按鈕時，將路線名稱及選擇的站點資料傳送到api/edit_station.php
@@ -19,13 +19,11 @@ $("#edit-button").on("click",function(){
                 id:$(this).data('id')
             } ,(res) => {
             //console.log(res)
-            load('station-link.php');
-            setActive('station-link')
+            location.href= '?page=station-link';
         })
 })
 //回上頁按鈕
 $("#back-button").on("click",function(){
-    load('station-link.php');
-    setActive('station-link')
+    location.href= '?page=station-link'
 })
 </script>

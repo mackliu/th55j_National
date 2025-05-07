@@ -1,4 +1,3 @@
-
 <div class="list">
     <h1 class="border p-3 text-center my-3">站點管理 
         <button class="btn btn-success" id="add-station-button" onclick="load('add_station.php')">新增</button>
@@ -16,8 +15,6 @@
     </table>
 </div>
 <script>
-
-
 $.get("./api/get_stations.php",(stations)=>{
     $("#station tbody").empty()
     stations.forEach(station => {
@@ -35,8 +32,7 @@ $.get("./api/get_stations.php",(stations)=>{
 //綁定編輯和刪除按鈕的事件
 $(".edit-station-button").on("click",function(){
         let stationName=$(this).data("station");
-        load('edit_station.php?name='+stationName);
-        setActive('station-link')
+        location.href= '?page=edit_station&name=' + stationName
     })
 
  $(".delete-station-button").on("click",function(){
@@ -48,12 +44,10 @@ $(".edit-station-button").on("click",function(){
             table:'station'
         },(res)=>{
             //console.log(res)
-            load('station-link.php')
-            setActive('station-link')
+            location.href= '?page=station-link'
+
         })
     }
  })
 })
-
-
 </script>

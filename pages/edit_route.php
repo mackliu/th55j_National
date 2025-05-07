@@ -8,32 +8,29 @@ $route=q("SELECT * FROM `route` WHERE `name`='{$_GET['name']}'")[0];
              required>
 </div>
 <div class="row w-100">
-            <div class="col-6">
-                <div class="text-center">選擇站點</div>
-                <div id="station-list" class="d-flex flex-wrap align-items-center"></div>
-            </div>
-            <div class="col-6">
-                <div class="text-center">編輯站點</div>
-                <div class="list-group">
-                    <div class="d-flex justify-content-between align-items-center list-group-item" data-id="${stationId}">
-                        <div class="d-flex col-10">
-                            <div class="col-6 px-1">站點名稱</div>
-                            <div class="col-3 px-1">行駛時間</div>
-                            <div class="col-3 px-1">停留時間</div>
-                        </div>
-                        <div class="col-1">&nbsp</div>
-                    </div>
+    <div class="col-6">
+        <div class="text-center">選擇站點</div>
+        <div id="station-list" class="d-flex flex-wrap align-items-center"></div>
+    </div>
+    <div class="col-6">
+        <div class="text-center">編輯站點</div>
+        <div class="list-group">
+            <div class="d-flex justify-content-between align-items-center list-group-item" data-id="${stationId}">
+                <div class="d-flex col-10">
+                    <div class="col-6 px-1">站點名稱</div>
+                    <div class="col-3 px-1">行駛時間</div>
+                    <div class="col-3 px-1">停留時間</div>
                 </div>
-                <div id="selected-stations" class="list-group">
-
-                </div>
-
+                <div class="col-1">&nbsp</div>
             </div>
         </div>
-
+        <div id="selected-stations" class="list-group">
+        </div>
+    </div>
+</div>
 <div class="row w-100">
-    <input  type="button" id="edit-button" data-id="<?=$route['id'];?>" value="修改" class='col-12 btn btn-success my-1'>
-    <input  type="button" id="back-button" value="回上頁" class='col-12 btn btn-secondary my-1'>
+    <button id="edit-button" data-id="<?=$route['id'];?>" class='col-12 btn btn-success my-1'>修改</button>
+    <button id="back-button" class='col-12 btn btn-secondary my-1'>回上頁</button>
 </div>
 <script>
     //將整段程式包在jquery的ready事件中，確保DOM元素已經載入完成

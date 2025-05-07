@@ -21,27 +21,25 @@
 
 <input type="button" value="回上頁" class='col-12 btn btn-secondary my-1' onclick="load('admin_form.php');setActive('AdminForm')">
 <script>
-    function save() {
-        let data={
-                email: $("#email").val(),
-            }
-        //使用ajax來增加使用者，增加成功後重新載入admin_form.php
-        $.post("./api/add_user.php",data ,() => {
-                load('admin_form.php');
-                setActive('AdminForm')
-            })
-
-    }
-    function massAdd() {
-        let data={
-                emails: $("#emails").val(),
-            }
-        //使用ajax來增加使用者，增加成功後重新載入admin_form.php
-        $.post("./api/mass_add_user.php",data ,(res) => {
-                alert(res)
-                load('admin_form.php');
-                setActive('AdminForm')
-            })
-
-    }   
+function save() {
+    let data={
+            email: $("#email").val(),
+        }
+    //使用ajax來增加使用者，增加成功後重新載入admin_form.php
+    $.post("./api/add_user.php",data ,() => {
+            load('admin_form.php');
+            setActive('AdminForm')
+        })
+}
+function massAdd() {
+    let data={
+            emails: $("#emails").val(),
+        }
+    //使用ajax來增加使用者，增加成功後重新載入admin_form.php
+    $.post("./api/mass_add_user.php",data ,(res) => {
+            alert(res)
+            load('admin_form.php');
+            setActive('AdminForm')
+        })
+}   
 </script>

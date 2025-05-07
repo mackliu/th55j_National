@@ -1,4 +1,3 @@
-
 <div class="list">
 <h1 class="text-center my-3 border">路線管理</h1>
 
@@ -17,8 +16,6 @@
 </table>
 </div>
 <script>
-
-
 $.get("./api/get_routes.php", (routes) => {
     //console.log(routes)
     routes.forEach(route => {
@@ -53,5 +50,4 @@ $.get("./api/get_routes.php", (routes) => {
         }
     })
 })
-
 </script>

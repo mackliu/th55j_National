@@ -23,8 +23,6 @@
             <input type="datetime-local" name="start-at" id="start-at" class="form-control">
             <label for="">結束時間</label>
             <input type="datetime-local" name="end-at" id="end-at" class="form-control">
-
-            
             <button class="w-100 btn btn-primary m-2" id="save-button">儲存</button>
         </div>
         <div>
@@ -34,10 +32,6 @@
             <h3>統計資料</h3>
         </div>
       </div>      
-        
-     
-
-
     </div>
 </div>
 
