@@ -1,4 +1,4 @@
-<?php include_once "../api/db.php";?>
+
 <div class="list">
     <h1 class="border p-3 text-center my-3">站點管理 
         <button class="btn btn-success" id="add-station-button" onclick="load('add_station.php')">新增</button>
@@ -16,6 +16,8 @@
     </table>
 </div>
 <script>
+
+
 $.get("./api/get_stations.php",(stations)=>{
     $("#station tbody").empty()
     stations.forEach(station => {

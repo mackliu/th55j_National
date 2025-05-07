@@ -1,7 +1,8 @@
-<?php include_once "../api/db.php";?>
+
 <div class="list">
 <h1 class="text-center my-3 border">路線管理</h1>
-<button class="btn btn-success" onclick="load('add_route.php')">新增</button>
+
+<a class="btn btn-success" href='?page=add_route'>新增</a>
 <table class='table table-bordered text-center w-100' id='routes-table'>
     <thead>
     <tr class="bg-info text-white">
@@ -16,6 +17,8 @@
 </table>
 </div>
 <script>
+
+
 $.get("./api/get_routes.php", (routes) => {
     //console.log(routes)
     routes.forEach(route => {
@@ -34,8 +37,7 @@ $.get("./api/get_routes.php", (routes) => {
     //綁定編輯和刪除按鈕的事件
     $(".edit-route-button").on("click", function () {
         let routeName = $(this).data("route")
-        load('edit_route.php?name=' + routeName)
-        setActive('route-link')
+        location.href= '?page=edit_route&name=' + routeName
     })
 
     $(".delete-route-button").on("click", function () {
@@ -46,8 +48,7 @@ $.get("./api/get_routes.php", (routes) => {
                 id:$(this).data('id')
             }, (res) => {
                 //console.log(res)
-                load('route-link.php')
-                setActive('route-link')
+                location.href= '?page=route-link'
             })
         }
     })

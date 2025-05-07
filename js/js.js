@@ -84,3 +84,11 @@ function edit(table,id){
 function load(page){
     $(".main").load(`./pages/${page}`)
 }
+
+/**
+ * 設定選單按鈕的active class
+ */
+function setActive(id){
+    $(".control").removeClass('active');
+    $("#"+id).addClass("active");
+}

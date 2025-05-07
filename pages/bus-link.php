@@ -1,4 +1,4 @@
-<?php include_once "../api/db.php";?>
+
 <div class="list">
 <h1 class="text-center my-3 border">車輛管理</h1>
 <button class="btn btn-success" id="add-bus-button" onclick="load('add_bus.php')">新增</button>
@@ -16,6 +16,8 @@
 </table>
 </div>
 <script>
+
+
 $.get("./api/get_bus_list.php", (data) => {
     console.log(data);
     //使用迴圈將路線資料加入到下拉選單(#route)中

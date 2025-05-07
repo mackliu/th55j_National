@@ -1,4 +1,4 @@
-<?php include_once "../api/db.php"; 
+<?php include_once "./api/db.php"; 
 $route=q("SELECT * FROM `route` WHERE `name`='{$_GET['name']}'")[0];
 ?>
 <h1 class="border p-3 my-3 text-center">修改「<span id='title'><?=$route['name'];?></span>」路線</h1>
@@ -50,16 +50,13 @@ $route=q("SELECT * FROM `route` WHERE `name`='{$_GET['name']}'")[0];
                 id:$(this).data('id'),
                 stations:selectedStations
             } ,(res) => {
-            console.log(res)
-            load('route-link.php');
-            setActive('route-link')
+            location.href= '?page=route-link'
         })
 })
 
     //回上頁按鈕
     $("#back-button").on("click",function(){
-        load('route-link.php');
-        setActive('route-link')
+        location.href= '?page=route-link'
     })
 
     //取得所有該路線站點資料並在編輯站點區域顯示

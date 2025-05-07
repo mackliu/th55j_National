@@ -1,4 +1,4 @@
-<?php include_once "../api/db.php";?>
+
 <div class="list">
     <h1 class="border p-3 text-center my-3">表單管理 
         <button class="btn btn-success" onclick="load('add_user.php')">新增參與者email</button>

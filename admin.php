@@ -1,4 +1,10 @@
-<?php include_once "./api/db.php";?>
+<?php 
+//載入資料庫連線檔案
+include_once "./api/db.php";
+
+//根據網址參數決定要載入的頁面
+$page=$_GET['page']??'route-link';
+?>
 <?php
 
 //判斷$_SESSION['login']這個變數是否存在
@@ -34,63 +40,33 @@ if(!isset($_SESSION['login'])){
 <div class="container mt-5">
 
 <div class="border p-3">
-    <a href="#" class='control btn btn-light active' id='route-link' onclick="load('route-link.php');setActive('route-link')">路線管理</a>
-    <a href="#" class='control btn btn-light' id='bus-link' onclick="load('bus-link.php');setActive('bus-link')">車輛管理</a>
-    <a href="#" class='control btn btn-light' id='station-link' onclick="load('station-link.php');setActive('station-link')">站點管理</a>
-    <a href="#" class='control btn btn-light' id='form-link' onclick="load('form-link.php');setActive('form-link')">表單管理</a>
+    <!-- 根據網址參數決定要讓那個連結按鈕為active的狀態 -->
+    <a href="?page=route-link" class='control btn btn-light <?=($page=='route-link')?'active':'';?>' id='route-link'>路線管理</a>
+    <a href="?page=bus-link" class='control btn btn-light <?=($page=='bus-link')?'active':'';?>'  id='bus-link' >車輛管理</a>
+    <a href="?page=station-link" class='control btn btn-light <?=($page=='station-link')?'active':'';?>'  id='station-link' >站點管理</a>
+    <a href="?page=form-link" class='control btn btn-light <?=($page=='form-link')?'active':'';?>' id='form-link' >表單管理</a>
 </div>
 <div class="main">
+<?php 
+// 根據網址參數建立要載入的檔案名稱
+$file="./pages/".$page.".php";
 
+// 判斷檔案是否存在
+if(file_exists($file)){
+
+    //如果檔案存在，則載入該檔案
+    include $file;
+
+}else{
+
+    //如果檔案不存在，則載入預設的路線管理頁面
+    include "./pages/route-link.php";
+}
+
+?>
 </div>
 </div>
 
 <script src="./js/bootstrap.js"></script>
-<script>
-load('route-link.php');
-
-/**
- * 設定選單按鈕的active class
- */
-function setActive(id){
-    $(".control").removeClass('active');
-    $("#"+id).addClass("active");
-}
-
-/**
- * 設定表格可拖曳排序
- */
-function setDragable(table){
-    //代入要拖曳排序的表格id及tbody
-    $(`#${table} tbody`).sortable({
-    helper:function(e,ui){
-        //將拖曳的元素設定為原本的寬度,避免拖曳時元素變形
-        ui.children().each(function(){
-            $(this).width($(this).width());
-        })
-        return ui;
-    },
-    placeholder:"ui-state-highlight", //拖曳時原本的位置會有一個空白的地方
-    update:function(){ //當拖曳結束,排序變更時觸發
-        let arr=[]; //建立一個空陣列
-
-        //將拖曳目標區域內的tr元素逐一取出
-        $(`#${table} tbody tr`).each(function(){
-
-            //將每個tr元素的data-id屬性值依序存入arr陣列
-            arr.push($(this).data("id"));
-        })
-        //透過ajax將排序後的id陣列傳送到update_rank.php進行更新
-        $.post("./api/update_rank.php",{table,arr},function(){
-            //重新載入站點管理頁面
-            if(table="station"){
-                load('admin_station.php')
-            }
-            
-        })
-    }
-
-}).disableSelection();
-}
-</script>
 </body>
 </html>
