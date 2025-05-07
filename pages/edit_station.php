@@ -1,4 +1,4 @@
-<?php include_once "../api/db.php"; 
+<?php include_once "./api/db.php"; 
 $station=q("SELECT * FROM `station` WHERE `name`='{$_GET['name']}'")[0];
 ?>
 <h1 class="border p-3 my-3 text-center">修改「<span id='title'><?=$station['name'];?></span>」</h1>
