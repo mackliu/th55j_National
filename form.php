@@ -15,9 +15,18 @@
 
 
 <div class="main">
-<h1 class="border p-3 my-3 text-center">接駁意願調查</h1>
+<h1 class="border p-3 my-3 text-center">搭乘意願調查</h1>
 <form>
 
+    <div class="row w-100">
+        <label for="" class="col-2">路線</label>
+        <select name="route" id="route" class='form-group form-control col-10'  required>
+            <option value="1">台北-台中</option>
+            <option value="2">台北-高雄</option>
+            <option value="3">台北-花蓮</option>
+            <option value="4">台北-台東</option>
+        </select>
+    </div>
     <div class="row w-100">
         <label for="" class="col-2">姓名</label>
         <input type="text" name="name" id="name" class='form-group form-control col-10'>
@@ -26,9 +35,16 @@
         <label for="" class="col-2">信箱</label>
         <input type="text" name="email" id="email" class='form-group form-control col-10' min='0' step="1" required>
     </div>
+    
+    <div class="row w-100">
+        <label for="" class="col-2">寶貴意見</label>
+
+        <textarea name="note" id="note" class='form-group form-control col-10'  rows="8" cols="30"></textarea>
+    </div>
+
     <div class="row w-100">
         <input type="button" value="送出" class='col-12 btn btn-success my-1' onclick='save()'>
-        <input type="button" value="不參與調查" class='col-12 btn btn-secondary my-1' onclick="location.href='index.php'">
+        <input type="button" value="取消" class='col-12 btn btn-secondary my-1' onclick="location.href='index.php'">
     </div>
 </form>
 <script>
