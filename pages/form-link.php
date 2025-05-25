@@ -15,7 +15,10 @@
             <div class="d-flex">
                 <span>啟用表單</span>
                 <div class="custom-control custom-switch mx-1">
-                    <input type="checkbox" name="enable" class="custom-control-input" id="active-form" checked>
+                    <?php 
+                        $chkactive=q("select * from form_settings where id=1")[0];
+                    ?>
+                    <input type="checkbox" name="enable" class="custom-control-input" id="active-form" <?=($chkactive['enabled']==1)?'checked':'';?>>
                     <label class="custom-control-label" for="active-form">啟用</label>
                 </div>
             </div>

@@ -1,13 +1,15 @@
 <?php 
 include_once "db.php";
 
-//取得前端傳來的資料，包含姓名、電子信箱
+//取得前端傳來的資料，包含姓名、電子信箱、路線、意見
 $name=$_POST['name'];
 $email=$_POST['email'];
+$route=$_POST['route'];
+$note=$_POST['note'];
 
 //檢查調查回應表單是否開放填寫
-$active=$pdo->query('select `active` from `form` limit 1')->fetchColumn();
-if(!$active){
+$active=q("select * from form_settings where id=1")[0];
+if($active['enabled']!=1){
     echo 3;  //回傳3代表表單已關閉
     exit();
 }

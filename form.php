@@ -21,15 +21,17 @@
     <div class="row w-100">
         <label for="" class="col-2">路線</label>
         <select name="route" id="route" class='form-group form-control col-10'  required>
-            <option value="1">台北-台中</option>
-            <option value="2">台北-高雄</option>
-            <option value="3">台北-花蓮</option>
-            <option value="4">台北-台東</option>
+            <?php
+                $routes=q("select * from route");
+                foreach($routes as $route){
+                    echo "<option value='{$route['id']}'>{$route['name']}</option>";
+                }
+            ?>
         </select>
     </div>
     <div class="row w-100">
         <label for="" class="col-2">姓名</label>
-        <input type="text" name="name" id="name" class='form-group form-control col-10'>
+        <input type="text" name="name" id="name" class='form-group form-control col-10'  required>
     </div>
     <div class="row w-100">
         <label for="" class="col-2">信箱</label>
@@ -48,10 +50,21 @@
     </div>
 </form>
 <script>
+
+    $.get("./api/get_route_list.php",(list)=>{
+        //console.log(list);
+        list.forEach((route)=>{
+            $("#route").append(`<option value='${route.id}'>${route.name}</option>`)
+        })
+    })
+
+
     function save() {
         let data={
                 name: $("#name").val(),
                 email: $("#email").val(),
+                route: $("#route").val(),
+                note: $("#note").val(),
             }
     if(data.name==''){
         alert("如要搭乘接駁車，姓名欄位不可為空白")
@@ -59,7 +72,7 @@
     }
         //使用ajax來取得回應，並依據回應結果顯示不同的訊息
         $.post("./api/feeback.php",data ,(res) => {
-                //console.log(res)
+                console.log(res)
                 switch(parseInt(res)){
                     case 1:
                         alert("你已經參與過意見調查");
