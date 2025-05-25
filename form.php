@@ -51,12 +51,12 @@
 </form>
 <script>
 
-    $.get("./api/get_route_list.php",(list)=>{
+    /* $.get("./api/get_route_list.php",(list)=>{
         //console.log(list);
         list.forEach((route)=>{
             $("#route").append(`<option value='${route.id}'>${route.name}</option>`)
         })
-    })
+    }) */
 
 
     function save() {
@@ -74,17 +74,14 @@
         $.post("./api/feeback.php",data ,(res) => {
                 console.log(res)
                 switch(parseInt(res)){
-                    case 1:
-                        alert("你已經參與過意見調查");
-                    break;
                     case 2:
-                        alert("您不在參與者名單中");
+                        alert("該表單目前不在回應時間內");
                     break;
                     case 3:
                         alert("該表單目前不接受回應");
                     break;
                     default:
-                        alert("感謝回覆調查");
+                        alert("己送出回應");
                         //完成回覆調查後導回首頁
                         location.href="index.php";
                 }            

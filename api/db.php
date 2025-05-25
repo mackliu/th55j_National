@@ -1,4 +1,7 @@
 <?php
+//設定伺服器時間
+date_default_timezone_set("Asia/Taipei");
+
 //建立資料庫連線所需參數
 //$dsn="mysql:host=localhost;charset=utf8;dbname=db03";
 $dsn="mysql:host=localhost;charset=utf8;dbname=th55j_national";

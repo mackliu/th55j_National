@@ -5,12 +5,12 @@
     </h1>
     <div class='d-flex justify-content-between align-items-top p-2'>
       <div id="form-sidebar" class="col-2 border-right">
-        <div id="basic-setting-link" class="m-1 text-center px-3 py-2 bg-light border">基本設定</div>
-        <div id="responses-setting-link" class="m-1 text-center px-3 py-2 border">檢視回應</div>
-        <div id="stastic-seeting-link" class="m-1 text-center px-3 py-2 border">統計資料</div>
+        <div id="basic-setting-link" class="link-btn m-1 text-center px-3 py-2 bg-light border">基本設定</div>
+        <div id="responses-setting-link" class="link-btn m-1 text-center px-3 py-2 border">檢視回應</div>
+        <div id="stastic-seeting-link" class="link-btn m-1 text-center px-3 py-2 border">統計資料</div>
       </div>
       <div id="form-page" class="col-10">
-        <div>
+        <div class='block' id="basic">
             <h3>基本設定</h3>
             <div class="d-flex">
                 <span>啟用表單</span>
@@ -28,10 +28,10 @@
             <input type="datetime-local" name="end-at" id="end-at" class="form-control">
             <button class="w-100 btn btn-primary m-2" id="save-button">儲存</button>
         </div>
-        <div>
+        <div class='block' id="responses" style="display:none">
             <h3>檢視回應</h3>
         </div>
-        <div>
+        <div class='block' id="stastic" style="display:none">
             <h3>統計資料</h3>
         </div>
       </div>      
@@ -39,5 +39,9 @@
 </div>
 
 <script>
-
+$(".link-btn").on("click",function(){
+    let target=$(this).attr('id').split("-")[0]
+    $(".block").hide();
+    $(`#${target}`).show();
+})
 </script>
