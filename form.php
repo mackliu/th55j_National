@@ -74,6 +74,11 @@
         $.post("./api/feeback.php",data ,(res) => {
                 console.log(res)
                 switch(parseInt(res)){
+                    case 1:
+                        alert("已送出回應")
+                        //完成回覆調查後導回首頁
+                        //location.href="index.php";
+                    break;
                     case 2:
                         alert("該表單目前不在回應時間內");
                     break;
@@ -81,9 +86,8 @@
                         alert("該表單目前不接受回應");
                     break;
                     default:
-                        alert("己送出回應");
-                        //完成回覆調查後導回首頁
-                        location.href="index.php";
+                        alert("未知的錯誤，請洽系統管理員");
+                        
                 }            
             })
 

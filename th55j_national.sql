@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2025-04-27 01:40:26
--- 伺服器版本： 10.4.25-MariaDB
+-- 產生時間： 2025-05-25 07:06:08
+-- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -29,8 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admin` (
   `id` int(10) UNSIGNED NOT NULL,
-  `acc` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `pw` text COLLATE utf8mb4_unicode_ci NOT NULL
+  `acc` text NOT NULL,
+  `pw` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -49,7 +49,7 @@ INSERT INTO `admin` (`id`, `acc`, `pw`) VALUES
 CREATE TABLE `bus` (
   `id` int(10) UNSIGNED NOT NULL,
   `route_id` int(10) UNSIGNED NOT NULL,
-  `plate` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `plate` text NOT NULL,
   `runtime` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -77,6 +77,13 @@ CREATE TABLE `form_settings` (
   `end_at` datetime NOT NULL COMMENT '結束時間'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- 傾印資料表的資料 `form_settings`
+--
+
+INSERT INTO `form_settings` (`id`, `enabled`, `start_at`, `end_at`) VALUES
+(1, 1, '2025-05-25 11:15:00', '2025-05-25 14:30:00');
+
 -- --------------------------------------------------------
 
 --
@@ -85,7 +92,7 @@ CREATE TABLE `form_settings` (
 
 CREATE TABLE `route` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` text COLLATE utf8mb4_unicode_ci NOT NULL
+  `name` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -94,7 +101,8 @@ CREATE TABLE `route` (
 
 INSERT INTO `route` (`id`, `name`) VALUES
 (2, '台北普通線'),
-(3, '北區高速專線');
+(3, '北區高速專線'),
+(5, '新北特快直達');
 
 -- --------------------------------------------------------
 
@@ -125,7 +133,11 @@ INSERT INTO `route_station` (`id`, `route_id`, `station_id`, `seq`, `arriving_ti
 (27, 2, 15, 6, 1, 1),
 (28, 3, 15, 4, 1, 1),
 (30, 3, 17, 5, 1, 1),
-(31, 3, 16, 6, 1, 1);
+(31, 3, 16, 6, 1, 1),
+(32, 5, 1, 1, 0, 4),
+(33, 5, 6, 2, 4, 2),
+(34, 5, 12, 3, 7, 3),
+(35, 5, 15, 4, 8, 2);
 
 -- --------------------------------------------------------
 
@@ -135,7 +147,7 @@ INSERT INTO `route_station` (`id`, `route_id`, `station_id`, `seq`, `arriving_ti
 
 CREATE TABLE `station` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` text COLLATE utf8mb4_unicode_ci NOT NULL
+  `name` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -169,11 +181,38 @@ INSERT INTO `station` (`id`, `name`) VALUES
 CREATE TABLE `survey_response` (
   `id` int(10) NOT NULL,
   `route_id` int(10) UNSIGNED NOT NULL,
-  `name` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `feedback` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `name` text NOT NULL,
+  `email` text NOT NULL,
+  `note` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- 傾印資料表的資料 `survey_response`
+--
+
+INSERT INTO `survey_response` (`id`, `route_id`, `name`, `email`, `note`, `created_at`) VALUES
+(1, 1, '王小明', 'xiaoming.wang32@example.com', '希望班次可以更密集', '2025-05-25 05:05:37'),
+(2, 2, 'Emily Chen', 'emily.chen87@example.com', 'Very convenient, thank you!', '2025-05-25 05:05:37'),
+(3, 3, '李大仁', 'daren.li21@example.com', NULL, '2025-05-25 05:05:37'),
+(4, 1, 'John Smith', 'john.smith99@example.com', 'Can you add more morning buses?', '2025-05-25 05:05:37'),
+(5, 2, '陳美麗', 'meili.chen45@example.com', '車子很乾淨，讚！', '2025-05-25 05:05:37'),
+(6, 3, 'Sophia Liu', 'sophia.liu73@example.com', '', '2025-05-25 05:05:37'),
+(7, 1, '林志強', 'zhiqiang.lin16@example.com', '時間稍微不準確，建議改善', '2025-05-25 05:05:37'),
+(8, 2, 'Grace Wu', 'gracewu51@example.com', NULL, '2025-05-25 05:05:37'),
+(9, 3, '張偉', 'zhangwei83@example.com', '方便又準時，會再搭乘', '2025-05-25 05:05:37'),
+(10, 1, 'Kevin Lin', 'kevin.lin26@example.com', 'Great service overall!', '2025-05-25 05:05:37'),
+(11, 2, '黃秋霞', 'qiuxia.huang99@example.com', '希望有夜間公車', '2025-05-25 05:05:37'),
+(12, 3, 'Amy Wang', 'amy.wang34@example.com', '常常滿座，建議增加班次', '2025-05-25 05:05:37'),
+(13, 1, '周玉婷', 'yuting.zhou11@example.com', '', '2025-05-25 05:05:37'),
+(14, 2, 'Michael Lee', 'michael.lee77@example.com', 'Please improve air conditioning', '2025-05-25 05:05:37'),
+(15, 3, '徐佳怡', 'jiayi.xu68@example.com', NULL, '2025-05-25 05:05:37'),
+(16, 1, 'David Chang', 'david.chang30@example.com', '司機很親切，值得讚賞', '2025-05-25 05:05:37'),
+(17, 2, '林依婷', 'yiting.lin54@example.com', '希望增加停靠站', '2025-05-25 05:05:37'),
+(18, 3, 'James Ho', 'james.ho59@example.com', 'Could use real-time arrival info', '2025-05-25 05:05:37'),
+(19, 1, '蔡佩珊', 'peishan.tsai12@example.com', '', '2025-05-25 05:05:37'),
+(20, 2, 'Jenny Huang', 'jenny.huang40@example.com', 'Love this bus route!', '2025-05-25 05:05:37'),
+(21, 3, '張欣怡', 'xinyi.zhang66@example.com', '路線設計很合理，感謝！', '2025-05-25 05:05:37');
 
 --
 -- 已傾印資料表的索引
@@ -241,19 +280,19 @@ ALTER TABLE `bus`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `form_settings`
 --
 ALTER TABLE `form_settings`
-  MODIFY `id` int(1) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(1) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `route`
 --
 ALTER TABLE `route`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `route_station`
 --
 ALTER TABLE `route_station`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id', AUTO_INCREMENT=32;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id', AUTO_INCREMENT=36;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `station`
@@ -265,7 +304,7 @@ ALTER TABLE `station`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `survey_response`
 --
 ALTER TABLE `survey_response`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

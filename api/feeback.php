@@ -24,4 +24,8 @@ if($now<$start_time or $now > $end_time ){
 
 
 //通過以上的檢查，則將使用者資料新增到survey資料表中
-q("insert into `survey_response` (`route_id`,`name`,`email`,`note`) values ('$route','$name','$email','$note')");
+$res=q("insert into `survey_response` (`route_id`,`name`,`email`,`note`) values ('$route','$name','$email','$note')");
+
+if(is_array($res)){
+    echo 1;
+}
