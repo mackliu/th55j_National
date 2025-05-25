@@ -6,7 +6,12 @@
     <div class='d-flex justify-content-between align-items-top p-2'>
       <div id="form-sidebar" class="col-2 border-right">
         <div id="basic-setting-link" class="link-btn m-1 text-center px-3 py-2 bg-light border">基本設定</div>
-        <div id="responses-setting-link" class="link-btn m-1 text-center px-3 py-2 border">檢視回應</div>
+        <div id="responses-setting-link" class="link-btn m-1 text-center px-3 py-2 border">
+            檢視回應
+            <div class="badge badge-primary p-1">
+                <?=q("select count(*) as 'sum' from survey_response")[0]['sum'];?>
+            </div>
+        </div>
         <div id="stastic-seeting-link" class="link-btn m-1 text-center px-3 py-2 border">統計資料</div>
       </div>
       <div id="form-page" class="col-10">
@@ -33,7 +38,45 @@
         </div>
         <div class='block' id="stastic" style="display:none">
             <h3>統計資料</h3>
-            <a href="#" class="btn btn-primary">匯出</a>
+            <?php
+                $result=q("SELECT `route`.`name` as 'route',
+                                 count(*) as 'amount' 
+                            FROM `survey_response`,`route` 
+                           WHERE `survey_response`.`route_id`=`route`.`id` 
+                        GROUP BY `route_id`");
+                $filename='export.json';
+                /* csv匯出
+                $filename='export.csv';
+                $file=fopen($filename,'w');
+                fwrite($file, "\xEF\xBB\xBF");
+                fputcsv($file,['Route','Amount']);
+                foreach($result as $row){
+                    fputcsv($file,$row);
+                    fclose($file)
+                } */
+               //json匯出
+                $jsondata=json_encode($result,JSON_UNESCAPED_UNICODE);
+                file_put_contents($filename,$jsondata)
+
+            ?>
+            <table class="table table-bordered">
+                <tr>
+                    <th>路線</th>
+                    <th>人數</th>
+                </tr>
+                <?php
+                    foreach($result as $row){
+                        echo "<tr>";
+                        echo "<td>{$row['route']}</td>";
+                        echo "<td>{$row['amount']}</td>";
+                        echo "</tr>";
+                ?>
+
+                <?php
+                    }
+                ?>
+            </table>
+            <a href="<?=$filename;?>" class="btn btn-primary" download>匯出</a>
         </div>
       </div>      
     </div>
