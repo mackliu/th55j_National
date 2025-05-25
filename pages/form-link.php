@@ -30,9 +30,20 @@
         </div>
         <div class='block' id="responses" style="display:none">
             <h3>檢視回應</h3>
+            <table id="response-table" class="table table-bolded">
+                <tr>
+                    <th width="10%" class="bg-info text-white">#</th>
+                    <th class="bg-info text-white">名字</th>
+                    <th class="bg-info text-white">信箱</th>
+                    <th class="bg-info text-white">路線</th>
+                    <th class="bg-info text-white">寶貴意見</th>
+                    <th class="bg-info text-white">操作</th>
+                </tr>
+            </table>
         </div>
         <div class='block' id="stastic" style="display:none">
             <h3>統計資料</h3>
+            <a href="#" class="btn btn-primary">匯出</a>
         </div>
       </div>      
     </div>

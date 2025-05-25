@@ -10,7 +10,15 @@
     <script src="./js/js.js"></script>
 </head>
 <body>
-<?php include "header.php";?>   
+<header class="shadow-sm p-3 d-flex w-100" style="height:100px">
+<div class="col-6">
+    <img src="" alt="" style="width:60px;height:60px;">
+   <a href="index.php">Public Transit Query System 大眾運輸查詢系統</a>
+</div>
+<!--此頁不include header.php，同時另外拿掉系統管理和登入，因為此頁只給一般使用者使用
+    因此不需要管理及登入功能-->
+<div class="col-6 row align-items-center justify-content-end"></div>
+</header> 
 <div class="container mt-5">
 
 
