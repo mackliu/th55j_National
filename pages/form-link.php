@@ -23,10 +23,10 @@
                 </div>
             </div>
             <label for="">起始時間</label>
-            <input type="datetime-local" name="start-at" id="start-at" class="form-control">
+            <input type="datetime-local" name="start-at" id="start-at" class="form-control" value="<?=$chkactive['start_at'];?>">
             <label for="">結束時間</label>
-            <input type="datetime-local" name="end-at" id="end-at" class="form-control">
-            <button class="w-100 btn btn-primary m-2" id="save-button">儲存</button>
+            <input type="datetime-local" name="end-at" id="end-at" class="form-control" value="<?=$chkactive['end_at'];?>">
+            <button class="w-100 btn btn-primary m-2" id="save-button" onclick="save()">儲存</button>
         </div>
         <div class='block' id="responses" style="display:none">
             <h3>檢視回應</h3>
@@ -55,4 +55,23 @@ $(".link-btn").on("click",function(){
     $(".block").hide();
     $(`#${target}`).show();
 })
+
+function save(){
+    let data={
+        start_at:$("#start-at").val(),
+        end_at:$("#end-at").val(),        
+    }
+
+    if($("#active-form").prop('checked')){
+        data.enabled=1;
+    }else{
+        data.enabled=0;
+    }
+
+console.log(data)
+    $.post("./api/save_settings.php",data,(res)=>{
+        console.log(res)
+        alert("儲存成功")
+    })
+}
 </script>
