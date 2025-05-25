@@ -77,7 +77,7 @@
                     case 1:
                         alert("已送出回應")
                         //完成回覆調查後導回首頁
-                        //location.href="index.php";
+                        location.href="index.php";
                     break;
                     case 2:
                         alert("該表單目前不在回應時間內");
