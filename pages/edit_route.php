@@ -1,4 +1,6 @@
 <?php include_once "./api/db.php"; 
+
+// 取得指定路線的詳細資料
 $route=q("SELECT * FROM `route` WHERE `name`='{$_GET['name']}'")[0];
 ?>
 <h1 class="border p-3 my-3 text-center">修改「<span id='title'><?=$route['name'];?></span>」路線</h1>
@@ -10,10 +12,12 @@ $route=q("SELECT * FROM `route` WHERE `name`='{$_GET['name']}'")[0];
 <div class="row w-100">
     <div class="col-6">
         <div class="text-center">選擇站點</div>
+        <!-- 使用ajax取得所有未被選取的站點資料，並在這個區域顯示 -->
         <div id="station-list" class="d-flex flex-wrap align-items-center"></div>
     </div>
     <div class="col-6">
         <div class="text-center">編輯站點</div>
+        <!-- 使用ajax取得所有已被選取的站點資料，並在這個區域顯示 -->
         <div class="list-group">
             <div class="d-flex justify-content-between align-items-center list-group-item" data-id="${stationId}">
                 <div class="d-flex col-10">
@@ -114,6 +118,7 @@ $route=q("SELECT * FROM `route` WHERE `name`='{$_GET['name']}'")[0];
             //console.log(stations,selectedStations)
         })
 
+        //綁定編輯區域的事件
         $("#selected-stations")
             .on("click",".move-up",function(){ //綁定上移事件
                 let seq=$(this).parents(".selected-item").data("seq")

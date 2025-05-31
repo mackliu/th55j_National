@@ -28,12 +28,14 @@
 
     <div class="row w-100">
         <label for="" class="col-2">路線</label>
-        <select name="route" id="route" class='form-group form-control col-10'  required>
+        <select name="route-select" id="route-select" class='form-group form-control col-10'  required>
+            <!--這邊示範使用php的q()函式來取得資料庫中的路線資料，並將其顯示在下拉選單中
+                也可以考慮使用ajax的方式來取得路線資料-->
             <?php
-                $routes=q("select * from route");
+                /* $routes=q("select * from route");
                 foreach($routes as $route){
                     echo "<option value='{$route['id']}'>{$route['name']}</option>";
-                }
+                } */
             ?>
         </select>
     </div>
@@ -59,28 +61,36 @@
 </form>
 <script>
 
-    /* $.get("./api/get_route_list.php",(list)=>{
-        //console.log(list);
-        list.forEach((route)=>{
-            $("#route").append(`<option value='${route.id}'>${route.name}</option>`)
+    /**
+     * 使用ajax來取得所有路線資料，並將其加入到id為route的select元素中
+        $.get("./api/get_routes.php",(routes)=>{
+            //將路線資料加入到id為route-select的select元素中
+            routes.forEach(route => {
+                //使用模板字串來建立option元素，其中的value為路線ID，顯示的文字為路線名稱
+                $("#route-select").append(`
+                    <option value="${route.id}">${route.name}</option>
+                `)
+            })
         })
-    }) */
-
+    */
+    
 
     function save() {
+        //取得使用者輸入的資料
         let data={
                 name: $("#name").val(),
                 email: $("#email").val(),
                 route: $("#route").val(),
                 note: $("#note").val(),
             }
+    //檢查姓名欄位是否為空白，如果是則顯示提示訊息並返回
     if(data.name==''){
         alert("如要搭乘接駁車，姓名欄位不可為空白")
         return 
     }
         //使用ajax來取得回應，並依據回應結果顯示不同的訊息
         $.post("./api/feeback.php",data ,(res) => {
-                console.log(res)
+                //console.log(res)
                 switch(parseInt(res)){
                     case 1:
                         alert("已送出回應")

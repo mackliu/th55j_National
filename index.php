@@ -144,7 +144,7 @@
 <script>
 
 //設定每一列的站點數量，如果現場題目有指定前端站點數量可變更，則此變數可從後端取得
-let PointsPerRow=4;
+let PointsPerRow=3;
 
 
 getRoutes()

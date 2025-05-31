@@ -1,4 +1,6 @@
 <?php include_once "./api/db.php";
+
+// 取得指定車輛的詳細資料
 $bus=q("SELECT `bus`.*,`route`.`name` as `route_name` 
         FROM `bus`,`route` 
         WHERE `bus`.`route_id`=`route`.`id` 

@@ -14,8 +14,6 @@ usort($_POST['stations'], function($a, $b) {
 //取得該路線的所有站點資料
 $route_stations=q("SELECT `id`,`station_id` FROM `route_station` WHERE `route_id`='{$_POST['id']}'");
 
-
-
 foreach($_POST['stations'] as $station){
 
     //檢查$route_stations中是否有這筆station_id，有則刪除
