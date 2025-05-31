@@ -32,10 +32,10 @@
             <!--這邊示範使用php的q()函式來取得資料庫中的路線資料，並將其顯示在下拉選單中
                 也可以考慮使用ajax的方式來取得路線資料-->
             <?php
-                /* $routes=q("select * from route");
+                $routes=q("select * from route");
                 foreach($routes as $route){
                     echo "<option value='{$route['id']}'>{$route['name']}</option>";
-                } */
+                }
             ?>
         </select>
     </div>
