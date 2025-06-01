@@ -105,7 +105,7 @@
 
         $(".station-chk").on("click",function(){
             //console.log($(this).val())
-            $(this).parent().append(
+               $(this).parent().append(
                 `
                 
                 <input type="number" class=" form-control col-3" name="arriving_time" placeholder="行駛時間" value="" min="0">分
