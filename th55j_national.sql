@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
--- 主機： 127.0.0.1
--- 產生時間： 2025-05-25 07:06:08
--- 伺服器版本： 10.4.32-MariaDB
--- PHP 版本： 8.2.12
+-- 主機： localhost
+-- 產生時間： 2025 年 06 月 01 日 01:51
+-- 伺服器版本： 10.6.4-MariaDB
+-- PHP 版本： 8.3.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,8 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admin` (
   `id` int(10) UNSIGNED NOT NULL,
-  `acc` text NOT NULL,
-  `pw` text NOT NULL
+  `acc` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pw` text COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -49,7 +49,7 @@ INSERT INTO `admin` (`id`, `acc`, `pw`) VALUES
 CREATE TABLE `bus` (
   `id` int(10) UNSIGNED NOT NULL,
   `route_id` int(10) UNSIGNED NOT NULL,
-  `plate` text NOT NULL,
+  `plate` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `runtime` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -58,11 +58,11 @@ CREATE TABLE `bus` (
 --
 
 INSERT INTO `bus` (`id`, `route_id`, `plate`, `runtime`) VALUES
-(1, 1, 'A1233', 34),
-(2, 2, 'B3421', 23),
-(3, 3, 'A4521', 31),
-(4, 1, 'A6321', 22),
-(5, 1, 'A2135', 32);
+(1, 5, 'A1233', 13),
+(2, 2, 'B3421', 20),
+(3, 3, 'A4521', 18),
+(4, 5, 'A6321', 8),
+(5, 5, 'A2135', 17);
 
 -- --------------------------------------------------------
 
@@ -92,7 +92,7 @@ INSERT INTO `form_settings` (`id`, `enabled`, `start_at`, `end_at`) VALUES
 
 CREATE TABLE `route` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` text NOT NULL
+  `name` text COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -147,7 +147,7 @@ INSERT INTO `route_station` (`id`, `route_id`, `station_id`, `seq`, `arriving_ti
 
 CREATE TABLE `station` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` text NOT NULL
+  `name` text COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -181,9 +181,9 @@ INSERT INTO `station` (`id`, `name`) VALUES
 CREATE TABLE `survey_response` (
   `id` int(10) NOT NULL,
   `route_id` int(10) UNSIGNED NOT NULL,
-  `name` text NOT NULL,
-  `email` text NOT NULL,
-  `note` text DEFAULT NULL,
+  `name` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `note` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
