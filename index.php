@@ -122,7 +122,7 @@
 <div class="container mt-5">
 
 <!--路線選擇區塊-->
-<div class="d-flex flex-wrap my-4 mx-auto shadow p-5 justify-content-center" style='width:min-content'>
+<div class="d-flex flex-wrap my-4 mx-auto p-5 justify-content-center">
     <div class="d-flex flex-column">
         <div class="d-flex flex-column">
             <label for="route-select">請選擇路線</label>
@@ -131,10 +131,42 @@
             </select>
         </div>
     </div>
+</div>
 
+<!--路徑查詢區塊-->
+<div class="d-flex flex-wrap my-4 mx-auto p-5 justify-content-center">
+    <div class="d-flex flex-column">
+        <h5 class="mb-3">最佳路徑查詢</h5>
+        <div class="d-flex flex-row align-items-end gap-3">
+            <div class="d-flex flex-column">
+                <label for="start-station-select">出發站</label>
+                <select name="start-station-select" id="start-station-select" class="form-control">
+                    <option value="">請選擇出發站</option>
+                </select>
+            </div>
+            <div class="d-flex flex-column">
+                <label for="end-station-select">目的站</label>
+                <select name="end-station-select" id="end-station-select" class="form-control">
+                    <option value="">請選擇目的站</option>
+                </select>
+            </div>
+            <div>
+                <button id="find-route-btn" class="btn btn-primary">最佳路線</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--路徑查詢結果區塊-->
+<div class="d-flex flex-wrap my-4 mx-auto  p-5" style=' display:none' id="route-result">
+    <div class="d-flex flex-column">
+        <h5 class="mb-3">推薦路線</h5>
+        <div id="route-result-content"></div>
+    </div>
+</div>
 
 <!--路網圖區塊-->
-<div class="d-flex flex-wrap my-4 mx-auto shadow p-5" style='width:min-content' id="route-map">
+<div class="d-flex flex-wrap my-4 mx-auto shadow p-5"  id="route-map">
 <!--這個區塊將會使用ajax來取得所有站點資料，並繪製路網圖-->
     
 </div>
@@ -148,6 +180,7 @@ let PointsPerRow=3;
 
 
 getRoutes()
+loadAllStations()
 
 /**
  * 取得所有路線的資料
@@ -357,6 +390,110 @@ function drawPath(){
     //將路徑字串加入到SVG的path中
     $("#route-path").attr("d",path)
 }
+
+/**
+ * 載入所有站點到出發站和目的站下拉選單
+ */
+function loadAllStations() {
+    $.get("./api/get_stations.php", (stations) => {
+        // 清空現有選項（除了預設選項）
+        $("#start-station-select option:not(:first)").remove();
+        $("#end-station-select option:not(:first)").remove();
+        
+        // 添加所有站點到兩個下拉選單
+        stations.forEach(station => {
+            const option = `<option value="${station.id}">${station.name}</option>`;
+            $("#start-station-select").append(option);
+            $("#end-station-select").append(option);
+        });
+    });
+}
+
+/**
+ * 查詢最佳路線
+ */
+function findBestRoute() {
+    const startStationId = $("#start-station-select").val();
+    const endStationId = $("#end-station-select").val();
+    
+    if (!startStationId) {
+        alert("請選擇出發站");
+        return;
+    }
+    
+    if (!endStationId) {
+        alert("請選擇目的站");
+        return;
+    }
+    
+    if (startStationId === endStationId) {
+        alert("出發站和目的站不能相同");
+        return;
+    }
+    
+    // 顯示載入中
+    $("#route-result-content").html('<div class="text-center">查詢中...</div>');
+    $("#route-result").show();
+    
+    // 發送API請求
+    $.get("./api/find_best_route.php", {
+        start_station_id: startStationId,
+        end_station_id: endStationId
+    }, (result) => {
+        if (result.error) {
+            $("#route-result-content").html(`<div class="alert alert-danger">${result.error}</div>`);
+        } else {
+            displayRouteResult(result);
+        }
+    }).fail(() => {
+        $("#route-result-content").html('<div class="alert alert-danger">查詢失敗，請稍後重試</div>');
+    });
+}
+
+/**
+ * 顯示路線查詢結果
+ */
+function displayRouteResult(result) {
+    let html = `<div class="alert alert-success">
+        <h6><i class="fas fa-route"></i> ${result.description}</h6>
+        <p><strong>總站數：</strong>${result.total_stations} 站</p>
+        <p><strong>預估時間：</strong>${result.total_time} 分鐘</p>
+    </div>`;
+    
+    if (result.type === 'direct') {
+        html += `<div class="card">
+            <div class="card-body">
+                <h6 class="card-title">直達路線</h6>
+                <p class="card-text">
+                    <strong>路線：</strong>${result.routes[0].route_name}<br>
+                    <strong>行駛時間：</strong>${result.routes[0].travel_time} 分鐘
+                </p>
+            </div>
+        </div>`;
+    } else if (result.type === 'transfer') {
+        html += `<div class="card">
+            <div class="card-body">
+                <h6 class="card-title">轉乘路線</h6>`;
+        
+        result.routes.forEach((route, index) => {
+            html += `<div class="mb-2">
+                <strong>第${index + 1}段：</strong>${route.route_name}<br>
+                <small class="text-muted">行駛時間：${route.travel_time} 分鐘</small>
+            </div>`;
+        });
+        
+        if (result.transfer_station) {
+            html += `<p><strong>轉乘站：</strong>${result.transfer_station}</p>`;
+        }
+        
+        html += `</div></div>`;
+    }
+    
+    $("#route-result-content").html(html);
+}
+
+// 綁定最佳路線按鈕點擊事件
+$("#find-route-btn").click(findBestRoute);
 </script>
 </body>
 </html>
