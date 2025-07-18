@@ -6,7 +6,7 @@ date_default_timezone_set("Asia/Taipei");
 //$dsn="mysql:host=localhost;charset=utf8;dbname=db03";
 $dsn="mysql:host=localhost;charset=utf8;dbname=th55j_national";
 //建立PDO物件
-$pdo=new PDO($dsn,'root','');
+$pdo=new PDO($dsn,'root','mack1007');
 
 //啟用session
 session_start();
